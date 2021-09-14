@@ -15,9 +15,6 @@ updates:
   commit-message:
     prefix: feat
     include: scope
-  ignore:
-    - dependency-name: "node"
-      versions: [">14"]
 - directory: "/14/dev/alpine"
   package-ecosystem: docker
   schedule:
@@ -33,9 +30,6 @@ updates:
   commit-message:
     prefix: feat
     include: scope
-  ignore:
-    - dependency-name: "node"
-      versions: [">14"]
 - directory: "/16/alpine"
   package-ecosystem: docker
   schedule:
@@ -51,9 +45,6 @@ updates:
   commit-message:
     prefix: feat
     include: scope
-  ignore:
-    - dependency-name: "node"
-      versions: [">16"]
 - directory: "/16/dev/alpine"
   package-ecosystem: docker
   schedule:
@@ -69,6 +60,3 @@ updates:
   commit-message:
     prefix: feat
     include: scope
-  ignore:
-    - dependency-name: "node"
-      versions: [">16"]
