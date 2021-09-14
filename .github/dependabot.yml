@@ -17,7 +17,8 @@ updates:
     include: scope
   ignore:
     - dependency-name: "node"
-      versions: ["<14.x", ">14.x"]
+      versions: 
+        - ">=15.a"
 - directory: "/14/dev/alpine"
   package-ecosystem: docker
   schedule:
@@ -35,7 +36,8 @@ updates:
     include: scope
   ignore:
     - dependency-name: "node"
-      versions: ["<14.x", ">14.x"]
+      versions: 
+        - ">=15.a"
 - directory: "/16/alpine"
   package-ecosystem: docker
   schedule:
@@ -53,7 +55,8 @@ updates:
     include: scope
   ignore:
     - dependency-name: "node"
-      versions: ["<16.x", ">16.x"]
+      versions:
+        - ">=17.a"
 - directory: "/16/dev/alpine"
   package-ecosystem: docker
   schedule:
@@ -71,4 +74,5 @@ updates:
     include: scope
   ignore:
     - dependency-name: "node"
-      versions: ["<16.x", ">16.x"]
+      versions:
+        - ">=17.a"
