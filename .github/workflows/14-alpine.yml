@@ -1,4 +1,4 @@
-name: Build & Push 14-alpine to Image Registry
+name: Build & Push 14/alpine to Image Registry
 
 on:
   push:
