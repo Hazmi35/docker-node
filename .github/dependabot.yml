@@ -1,0 +1,20 @@
+version: 2
+updates:
+- directory: "/14/alpine"
+  package-ecosystem: docker
+  schedule:
+    interval: daily
+    time: "06:00"
+    timezone: Asia/Jakarta
+  open-pull-requests-limit: 99
+  target-branch: main
+  reviewers:
+  - Hazmi35
+  labels:
+  - update
+  commit-message:
+    prefix: feat
+    include: scope
+  ignore:
+    - dependency-name: "node"
+      versions: ["<16.x", ">16.x"]
