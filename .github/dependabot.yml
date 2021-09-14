@@ -1,5 +1,20 @@
 version: 2
 updates:
+- directory: "/"
+  package-ecosystem: github-actions
+  schedule:
+    interval: daily
+    time: "06:00"
+    timezone: Asia/Jakarta
+  open-pull-requests-limit: 99
+  target-branch: main
+  reviewers:
+  - Hazmi35
+  labels:
+  - gh-actions
+  commit-message:
+    prefix: ci
+    include: scope
 - directory: "/14/alpine"
   package-ecosystem: docker
   schedule:
