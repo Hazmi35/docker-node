@@ -1,4 +1,4 @@
 {
-    "tags": ["16.12.0-alpine", "16.12-alpine", "16-alpine", "alpine", "current-alpine"],
+    "tags": ["16.13.0-alpine", "16.13-alpine", "16-alpine", "gallium-alpine", "lts-alpine"],
     "platforms": ["linux/amd64", "linux/arm64/v8", "linux/arm/v7", "linux/arm/v6", "linux/ppc64le", "linux/s390x"]
 }
