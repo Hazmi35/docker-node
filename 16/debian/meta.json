@@ -1,4 +1,4 @@
 {
-    "tags": ["14.18.1", "14.18", "14", "fermium"],
+    "tags": ["16.13.0", "16.13", "16", "gallium", "lts"],
     "platforms": ["linux/amd64", "linux/arm64/v8", "linux/arm/v7", "linux/ppc64le", "s390x"]
 }
