@@ -1,4 +1,4 @@
-FROM node:17.0.1-slim
+FROM node:17.1.0-slim
 
 # Set workdir
 WORKDIR /tmp/build
