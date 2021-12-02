@@ -1,4 +1,4 @@
-FROM node:14.18.1-bullseye-slim
+FROM node:14.18.2-bullseye-slim
 
 # Set workdir
 WORKDIR /app
