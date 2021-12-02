@@ -1,4 +1,4 @@
 {
-    "tags": ["16.13.0-dev", "16.13-dev", "16-dev", "gallium-dev", "lts-dev"],
+    "tags": ["16.13.1-dev", "16.13-dev", "16-dev", "gallium-dev", "lts-dev"],
     "platforms": ["linux/amd64", "linux/arm64/v8", "linux/arm/v7", "linux/ppc64le", "s390x"]
 }
