@@ -31,7 +31,8 @@
 		"git": "latest",
 		"git-lfs": "latest",
 		"github-cli": "latest",
-		"sshd": "latest"
+		"sshd": "latest",
+		"node": "lts"
 	}
 }
 
