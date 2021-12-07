@@ -59,7 +59,7 @@ jobs:
           echo "::set-output name=platforms::$PLATFORMS"
 
       - name: Generate Docker image metadata
-        uses: docker/metadata-action@v3.6.1
+        uses: docker/metadata-action@v3.6.2
         id: img_meta
         with:
           images: |
