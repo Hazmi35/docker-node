@@ -1,4 +1,0 @@
-{
-    "tags": ["14.18.2-alpine", "14.18-alpine", "14-alpine", "fermium-alpine"],
-    "platforms": ["linux/amd64", "linux/arm64/v8", "linux/arm/v7", "linux/arm/v6", "linux/ppc64le", "linux/s390x"]
-}
