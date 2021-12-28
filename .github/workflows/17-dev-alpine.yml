@@ -27,7 +27,7 @@ jobs:
         uses: docker/setup-buildx-action@v1.6.0
 
       - name: Set up Node.js for extracting recipe from Dockerfile
-        uses: actions/setup-node@v2.5.0
+        uses: actions/setup-node@v2.5.1
 
       - name: Set WORKDIR
         run: echo "WORKDIR=17/dev/alpine" >> $GITHUB_ENV
