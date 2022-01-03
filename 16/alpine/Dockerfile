@@ -7,4 +7,5 @@ FROM node:16.13.1-alpine
 WORKDIR /app
 
 # Preinstalled packages
-RUN apk add --no-cache tzdata
+RUN apk add --no-cache \
+    tzdata

@@ -8,7 +8,10 @@ WORKDIR /tmp/build
 
 # Install node-gyp dependencies
 RUN apt-get update \
-    && apt-get install -y build-essential git python3 python-is-python3 --no-install-recommends \
+    && apt-get install -y --no-install-recommends \
+    build-essential \
+    git \
+    python3 python-is-python3 \
     && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
     && apt-get autoremove -y \
     && apt-get autoclean -y \

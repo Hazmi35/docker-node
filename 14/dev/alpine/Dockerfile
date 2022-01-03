@@ -7,7 +7,10 @@ FROM node:14.18.2-alpine
 WORKDIR /tmp/build
 
 # Install node-gyp dependencies
-RUN apk add --no-cache build-base git python3
+RUN apk add --no-cache \
+    build-base \
+    git \
+    python3
 
 # Link python to python3
 RUN ln -s /usr/bin/python3 /usr/local/bin/python
