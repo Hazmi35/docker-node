@@ -1,7 +1,7 @@
 # TAGS: fermium
 # VARIANT:
 # PLATFORMS: linux/amd64, linux/arm64/v8, linux/arm/v7, linux/ppc64le, s390x
-FROM node:14.18.2-bullseye-slim
+FROM node:14.18.3-bullseye-slim
 
 # Set workdir
 WORKDIR /app
