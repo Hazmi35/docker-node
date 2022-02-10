@@ -1,7 +1,7 @@
 # TAGS: gallium, lts
 # VARIANT:
 # PLATFORMS: linux/amd64, linux/arm64/v8, linux/arm/v7, linux/ppc64le, linux/s390x
-FROM node:16.13.2-bullseye-slim
+FROM node:16.14.0-bullseye-slim
 
 # Set workdir
 WORKDIR /app
