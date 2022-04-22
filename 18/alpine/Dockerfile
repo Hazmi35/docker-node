@@ -9,4 +9,3 @@ WORKDIR /app
 # Preinstalled packages
 RUN apk add --no-cache \
     tzdata
-
