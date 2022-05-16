@@ -27,7 +27,7 @@ jobs:
         uses: docker/setup-buildx-action@v2.0.0
 
       - name: Set up Node.js for extracting recipe from Dockerfile
-        uses: actions/setup-node@v3.1.1
+        uses: actions/setup-node@v3.2.0
 
       - name: Set WORKDIR
         run: echo "WORKDIR=14/dev/debian" >> $GITHUB_ENV
