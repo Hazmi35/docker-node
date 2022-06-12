@@ -1,7 +1,7 @@
 # TAGS: oldcurrent
 # VARIANT: dev
 # PLATFORMS: linux/amd64, linux/arm64/v8, linux/arm/v7, linux/ppc64le, linux/s390x
-FROM node:17.9.1-slim
+FROM docker.io/library/node:17.9.1-slim
 
 # Set workdir
 WORKDIR /tmp/build
