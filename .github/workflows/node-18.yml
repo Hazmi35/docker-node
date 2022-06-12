@@ -13,16 +13,16 @@ on:
       - "18/**/Dockerfile"
 
 jobs:
-  workdir:
+  workdirs:
     uses: ./.github/workflows/specify-workdir.yml
     with:
-      base-dir: 18
+      base-dir: 14
 
   image:
     uses: ./.github/workflows/build.yml
-    needs: workdir
+    needs: workdirs
     with:
-      workdirs: ${{ needs.workdir.outputs.workdirs-array }}
+      workdirs: ${{ needs.workdirs.outputs.workdirs-array }}
       images: |
         docker.io/hazmi35/node
         ghcr.io/hazmi35/node
