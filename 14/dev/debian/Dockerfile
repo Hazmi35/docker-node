@@ -3,7 +3,7 @@
 # PLATFORMS: linux/amd64, linux/arm64/v8, linux/arm/v7, linux/ppc64le, s390x
 FROM node:14.19.3-bullseye-slim
 
-# Set workdir
+# Set workdir.
 WORKDIR /tmp/build
 
 # Install node-gyp dependencies

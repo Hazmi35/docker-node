@@ -1,4 +1,4 @@
-# TAGS: fermium
+# TAGS:
 # VARIANT: dev
 # PLATFORMS: linux/amd64, linux/arm64/v8, linux/arm/v7, linux/ppc64le, s390x
 FROM node:15.14.0-buster-slim
