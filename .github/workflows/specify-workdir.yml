@@ -28,6 +28,8 @@ jobs:
     steps:
       - name: Check Out Repository
         uses: actions/checkout@v3.0.2
+        with: 
+          fetch-depth: 2
 
       - name: Set up Node.js for generating JSON Array
         uses: actions/setup-node@v3.1.1
