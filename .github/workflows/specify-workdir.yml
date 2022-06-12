@@ -43,4 +43,4 @@ jobs:
 
       - name: Generate a JSON array of list
         id: array
-        run: echo "::set-output name=result$(node -p 'JSON.stringify(process.argv.slice(1))' ${{ steps.workdirs.outputs.list }})"
+        run: echo "::set-output name=result::$(node -p 'JSON.stringify(process.argv.slice(1))' ${{ steps.workdirs.outputs.list }})"
