@@ -32,6 +32,8 @@ jobs:
       - name: Set up Node.js for generating JSON Array
         uses: actions/setup-node@v3.1.1
 
+      - run: cat .git/HEAD
+
       - name: Generate a list of changed Dockerfiles
         id: workdirs
         run: echo "::set-output name=list::$(git --no-pager diff --name-only HEAD^ ${{ inputs.base-dir }} | sed 's/\/Dockerfile//g' | sed ':a;N;$!ba;s/\n/ /g')"
