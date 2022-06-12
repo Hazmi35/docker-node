@@ -2,7 +2,7 @@ name: Specify Dockerfiles working directories
 
 on:
   workflow_call:
-    input:
+    inputs:
       base-dir:
         required: true
         type: string
