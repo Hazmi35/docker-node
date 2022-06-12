@@ -27,7 +27,7 @@ jobs:
   build:
     strategy:
       matrix:
-        workdir: ${{fromJson(inputs.workdirs)}}
+        workdir: ${{ fromJSON(inputs.workdirs) }}
 
     runs-on: ubuntu-latest
 

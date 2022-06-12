@@ -2,7 +2,7 @@ name: Specify Dockerfiles working directories
 
 on:
   workflow_call:
-    input:
+    inputs:
       base-dir:
         required: true
         type: string
@@ -26,6 +26,11 @@ jobs:
       workdirs-array: ${{ steps.array.outputs.result }}
 
     steps:
+      - name: Check Out Repository
+        uses: actions/checkout@v3.0.2
+        with:
+          fetch-depth: 0
+
       - name: Set up Node.js for generating JSON Array
         uses: actions/setup-node@v3.1.1
 
@@ -36,4 +41,4 @@ jobs:
 
       - name: Generate a JSON array of list
         id: array
-        run: echo "::set-output name=result$(node -p 'JSON.stringify(process.argv.slice(1))' ${{ steps.workdirs.outputs.list }})"
+        run: echo "::set-output name=result::$(node -p 'JSON.stringify(process.argv.slice(1))' ${{ steps.workdirs.outputs.list }})"
