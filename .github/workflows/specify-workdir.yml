@@ -1,0 +1,39 @@
+name: Build & Push OCI Image to OCI Image Registry
+
+on:
+  workflow_call:
+    input:
+      base-dir:
+        required: true
+        type: string
+    outputs:
+      workdirs:
+        description: "List of working directories"
+        value: ${{ jobs.specify-workdir.outputs.workdirs }}
+      workdirs-array:
+        description: "List of working directories in JSON Array"
+        value: ${{ jobs.specify-workdir.outputs.workdirs-array }}
+
+permissions:
+  contents: read
+
+jobs:
+  specify-workdir:
+    runs-on: ubuntu-latest
+
+    outputs:
+      workdirs: ${{ steps.workdirs.outputs.list }}
+      workdirs-array: ${{ steps.array.outputs.result }}
+
+    steps:
+      - name: Set up Node.js for generating JSON Array
+        uses: actions/setup-node@v3.1.1
+
+      - name: Generate a list of changed Dockerfiles
+        id: workdirs
+        run: echo "::set-output name=list::$(git --no-pager diff --name-only HEAD^ ${{ inputs.base-dir }} | sed 's/\/Dockerfile//g' | sed ':a;N;$!ba;s/\n/ /g')"
+        shell: bash
+
+      - name: Generate a JSON array of list
+        id: array
+        run: echo "::set-output name=result$(node -p 'JSON.stringify(process.argv.slice(1))' ${{ steps.workdirs.outputs.list }})"
