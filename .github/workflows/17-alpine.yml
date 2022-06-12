@@ -1,4 +1,4 @@
-name: Build & Push 16/alpine to OCI Image Registry
+name: Build & Push 17/alpine to Image Registry
 
 on:
   push:
@@ -14,14 +14,77 @@ on:
 
 jobs:
   build:
-    uses: ./.github/workflows/build.yml
-    with:
-      workdir: "17/alpine"
-      images: |
-        docker.io/hazmi35/node
-        ghcr.io/hazmi35/node
-    secrets:
-      docker-hub-username: hazmi35
-      docker-hub-access-token: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
-      ghcr-username: ${{ github.repository_owner }}
-      ghcr-access-token: ${{ secrets.GITHUB_TOKEN }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check Out Repository
+        uses: actions/checkout@v3.0.2
+
+      - name: Set up QEMU for Docker Buildx
+        uses: docker/setup-qemu-action@v2.0.0
+
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v2.0.0
+
+      - name: Set up Node.js for extracting recipe from Dockerfile
+        uses: actions/setup-node@v3.3.0
+
+      - name: Set WORKDIR
+        run: echo "WORKDIR=17/alpine" >> $GITHUB_ENV
+
+      - name: Extract recipe from Dockerfile
+        id: recipe
+        run: |
+          TAGS=`npm exec -sy @hazmi35/extract-docker-baseimg-recipe $WORKDIR/Dockerfile tags`
+          PLATFORMS=`npm exec -sy @hazmi35/extract-docker-baseimg-recipe $WORKDIR/Dockerfile platforms`
+          VARIANT=`npm exec -sy @hazmi35/extract-docker-baseimg-recipe $WORKDIR/Dockerfile variant`
+          echo TAGS: $TAGS
+          echo PLATFORMS: $PLATFORMS
+          echo VARIANT: $VARIANT
+          echo "::set-output name=tags::${TAGS//$', '/'%0A'}"
+          echo "::set-output name=platforms::${PLATFORMS//$', '/'%0A'}"
+          echo "::set-output name=variant::$VARIANT"
+
+      - name: Generate Docker image metadata
+        uses: docker/metadata-action@v4.0.1
+        id: meta
+        with:
+          images: |
+            hazmi35/node
+            ghcr.io/Hazmi35/node
+          tags: |
+            ${{ steps.recipe.outputs.tags }}
+
+      - name: Login to Docker Hub
+        if: ${{ github.event_name != 'pull_request' }}
+        uses: docker/login-action@v2.0.0
+        with:
+          username: hazmi35
+          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+
+      - name: Login to GitHub Container Registry
+        if: ${{ github.event_name != 'pull_request' }}
+        uses: docker/login-action@v2.0.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push the Docker image from the specified Dockerfile
+        id: docker_build
+        uses: docker/build-push-action@v3.0.0
+        with:
+          context: ${{ env.WORKDIR }}
+          platforms: |
+            ${{ steps.recipe.outputs.platforms }}
+          push: ${{ github.event_name == 'push' }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+
+      # Well, turns out it doesn't support PAT yet. Please see https://github.com/peter-evans/dockerhub-description/issues/24 and https://github.com/docker/roadmap/issues/115
+      #- name: Update repo description
+      #  uses: peter-evans/dockerhub-description@v2.4.1
+      #  with:
+      #    username: ${{ secrets.DOCKER_HUB_USERNAME }}
+      #    password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+      #    repository: hazmi35/node
