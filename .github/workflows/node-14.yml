@@ -14,7 +14,7 @@ on:
 
 jobs:
   workdir:
-    uses: ././github/workflows/specify-workdir.yml
+    uses: ./.github/workflows/specify-workdir.yml
     with:
       base-dir: 14
 
