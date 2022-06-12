@@ -3,7 +3,7 @@ name: Build & Push OCI Image to OCI Image Registry
 on:
   workflow_call:
     inputs:
-      workdir:
+      workdirs:
         required: true
         type: string
       images:
@@ -25,7 +25,12 @@ permissions:
 
 jobs:
   build:
+    strategy:
+      matrix:
+        workdir: ${{fromJson(inputs.workdirs)}}
+
     runs-on: ubuntu-latest
+
     steps:
       - name: Check Out Repository
         uses: actions/checkout@v3.0.2
@@ -43,9 +48,9 @@ jobs:
       - name: Extract recipe from Dockerfile
         id: recipe
         run: |
-          TAGS=`npm exec -sy @hazmi35/extract-docker-baseimg-recipe ${{ inputs.workdir }}/Dockerfile tags`
-          PLATFORMS=`npm exec -sy @hazmi35/extract-docker-baseimg-recipe ${{ inputs.workdir }}/Dockerfile platforms`
-          VARIANT=`npm exec -sy @hazmi35/extract-docker-baseimg-recipe ${{ inputs.workdir }}/Dockerfile variant`
+          TAGS=`npm exec -sy @hazmi35/extract-docker-baseimg-recipe ${{ matrix.workdir }}/Dockerfile tags`
+          PLATFORMS=`npm exec -sy @hazmi35/extract-docker-baseimg-recipe ${{ matrix.workdir }}/Dockerfile platforms`
+          VARIANT=`npm exec -sy @hazmi35/extract-docker-baseimg-recipe ${{ matrix.workdir }}/Dockerfile variant`
           echo TAGS: $TAGS
           echo PLATFORMS: $PLATFORMS
           echo VARIANT: $VARIANT
@@ -81,7 +86,7 @@ jobs:
         id: docker_build
         uses: docker/build-push-action@v2.10.0
         with:
-          context: ${{ inputs.workdir }}
+          context: ${{ matrix.workdir }}
           platforms: |
             ${{ steps.recipe.outputs.platforms }}
           push: ${{ github.event_name == 'push' }}
