@@ -26,7 +26,7 @@ permissions:
 jobs:
   build:
     strategy:
-      matrix:
+      matrix: # REFS: https://github.community/t/reusable-workflow-with-strategy-matrix/205676
         workdir: ${{ fromJSON(inputs.workdirs) }}
 
     runs-on: ubuntu-latest
