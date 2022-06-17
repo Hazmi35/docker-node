@@ -1,7 +1,7 @@
 # TAGS: 15-historic
 # VARIANT: dev
 # PLATFORMS: linux/amd64, linux/arm64/v8, linux/arm/v7, linux/ppc64le, s390x
-FROM docker.io/library/node:15.14.0-buster-slim
+FROM docker.io/library/node:18.4.0-buster-slim
 
 # Set workdir
 WORKDIR /tmp/build
