@@ -8,5 +8,5 @@
             "versioning": "semver"
         }
     ],
-    "ignoreUnstable": true
+    "major": false
 }
