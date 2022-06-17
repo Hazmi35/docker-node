@@ -1,5 +1,12 @@
 {
     "$schema": "https://docs.renovatebot.com/renovate-schema.json",
     "extends": ["github>frutbits/renovate-config"],
+    "packageRules": [
+        {
+            "matchDatasources": ["docker"],
+            "matchPackageNames": ["node"],
+            "versioning": "semver"
+        }
+    ],
     "ignoreUnstable": true
 }
