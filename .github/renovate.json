@@ -8,5 +8,7 @@
             "versioning": "semver"
         }
     ],
-    "major": false
+    "major": false,
+    "minor": true,
+    "patch": true
 }
