@@ -25,6 +25,7 @@ permissions:
 
 jobs:
   build:
+    continue-on-error: true
     strategy:
       matrix: # REFS: https://github.community/t/reusable-workflow-with-strategy-matrix/205676
         workdir: ${{ fromJSON(inputs.workdirs) }}
