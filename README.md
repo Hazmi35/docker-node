@@ -7,4 +7,4 @@ Available on [Docker Hub](https://hub.docker.com/r/hazmi35/node) and [GitHub Con
 ### Information for dev version
 There are `dev` flavor images available which is mainly used for building Node.js Docker images.
 
-These images are meant to be used in a multi-stage build configuration, which is build stage (installing, deps compiling, compiling, etc), and final stage (production image)
+These images are meant to be used in a [multi-stage build configuration](https://docs.docker.com/develop/develop-images/multistage-build/), which is build stage (installing, deps compiling, compiling, etc), and final stage (production image)
