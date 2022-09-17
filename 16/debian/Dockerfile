@@ -9,9 +9,10 @@ WORKDIR /app
 # Preinstalled packages
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
-        tzdata \
-        procps \
         iputils-ping \
+        procps \
+        tini \
+        tzdata \
     && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
     && apt-get autoremove -y \
     && apt-get autoclean -y \
