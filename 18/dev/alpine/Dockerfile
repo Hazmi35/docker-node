@@ -6,7 +6,7 @@ FROM docker.io/library/node:18.9.0-alpine
 # Set workdir
 WORKDIR /tmp/build
 
-# Install node-gyp dependencies
+# Install node-gyp dependencies 
 RUN apk add --no-cache \
     build-base \
     git \

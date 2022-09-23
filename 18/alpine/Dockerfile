@@ -6,7 +6,7 @@ FROM docker.io/library/node:18.9.0-alpine
 # Set workdir
 WORKDIR /app
 
-# Preinstalled packages
+# Preinstalled packages 
 RUN apk add --no-cache \
     tini \
     tzdata
