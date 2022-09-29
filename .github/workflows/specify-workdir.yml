@@ -32,7 +32,7 @@ jobs:
           fetch-depth: 0
 
       - name: Set up Node.js for generating JSON Array
-        uses: actions/setup-node@2fddd8803e2f5c9604345a0b591c3020ee971a93 # tag=v3.4.1
+        uses: actions/setup-node@969bd2663942d722d85b6a8626225850c2f7be4b # tag=v3.5.0
 
       - name: Generate a list of changed Dockerfiles
         id: workdirs
