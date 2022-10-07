@@ -1,0 +1,59 @@
+name: Build & Push OCI Image to OCI Image Registry
+
+on:
+  workflow_call:
+    inputs:
+      workdirs:
+        required: true
+        type: string
+      images:
+        required: true
+        type: string
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  metadata:
+    strategy:
+      matrix: # REFS: https://github.community/t/reusable-workflow-with-strategy-matrix/205676
+        workdir: ${{ fromJSON(inputs.workdirs) }}
+
+    outputs:
+      tags: ${{ steps.meta.outputs.tags }}
+      labels: ${{ steps.meta.outputs.labels }}
+      platforms: ${{ steps.recipe.outputs.platforms }}
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check Out Repository
+        uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8 # tag=v3.1.0
+
+      - name: Set up Node.js for extracting recipe from Dockerfile
+        uses: actions/setup-node@969bd2663942d722d85b6a8626225850c2f7be4b # tag=v3.5.0
+
+      - name: Extract recipe from Dockerfile
+        id: recipe
+        run: |
+          RESULT=`npm exec -sy @hazmi35/extract-docker-baseimg-recipe ${{ matrix.workdir }}/Dockerfile`
+          TAGS=`echo $RESULT | jq -cMr .tags`
+          PLATFORMS=`echo $RESULT | jq -cMr .platforms`
+          VARIANT=`echo $RESULT | jq -cMr .variant`
+          TAGS_LIST=`node -p 'JSON.parse(process.argv.slice(1)).join("\n")' $TAGS`
+          TAGS_LIST="${TAGS_LIST//'%'/'%25'}"
+          TAGS_LIST="${TAGS_LIST//$'\n'/'%0A'}"
+          TAGS_LIST="${TAGS_LIST//$'\r'/'%0D'}"
+          echo "::set-output name=tags::$TAGS"
+          echo "::set-output name=tags-list::${TAGS_LIST}"
+          echo "::set-output name=platforms::$PLATFORMS"
+          echo "::set-output name=variant::$VARIANT"
+
+      - name: Generate Docker image metadata
+        uses: docker/metadata-action@69f6fc9d46f2f8bf0d5491e4aabe0bb8c6a4678a # tag=v4.0.1
+        id: meta
+        with:
+          images: ${{ inputs.images }}
+          tags: |
+            ${{ steps.recipe.outputs.tags-list }}

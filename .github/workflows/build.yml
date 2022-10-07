@@ -6,7 +6,13 @@ on:
       workdirs:
         required: true
         type: string
-      images:
+      platforms:
+        required: true
+        type: string
+      tags:
+        required: true
+        type: string
+      labels:
         required: true
         type: string
     secrets:
@@ -24,60 +30,11 @@ permissions:
   packages: write
 
 jobs:
-  metadata:
+  build:
     strategy:
       matrix: # REFS: https://github.community/t/reusable-workflow-with-strategy-matrix/205676
         workdir: ${{ fromJSON(inputs.workdirs) }}
-
-    outputs:
-      tags: ${{ steps.meta.outputs.tags }}
-      labels: ${{ steps.meta.outputs.labels }}
-      platforms: ${{ steps.recipe.outputs.platforms }}
-      workdir: ${{ steps.workdir.outputs.dirs }}
-
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Check Out Repository
-        uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8 # tag=v3.1.0
-
-      - name: Set up Node.js for extracting recipe from Dockerfile
-        uses: actions/setup-node@969bd2663942d722d85b6a8626225850c2f7be4b # tag=v3.5.0
-
-      - name: Extract recipe from Dockerfile
-        id: recipe
-        run: |
-          RESULT=`npm exec -sy @hazmi35/extract-docker-baseimg-recipe ${{ matrix.workdir }}/Dockerfile`
-          TAGS=`echo $RESULT | jq -cMr .tags`
-          PLATFORMS=`echo $RESULT | jq -cMr .platforms`
-          VARIANT=`echo $RESULT | jq -cMr .variant`
-          TAGS_LIST=`node -p 'JSON.parse(process.argv.slice(1)).join("\n")' $TAGS`
-          TAGS_LIST="${TAGS_LIST//'%'/'%25'}"
-          TAGS_LIST="${TAGS_LIST//$'\n'/'%0A'}"
-          TAGS_LIST="${TAGS_LIST//$'\r'/'%0D'}"
-          echo "::set-output name=tags::$TAGS"
-          echo "::set-output name=tags-list::${TAGS_LIST}"
-          echo "::set-output name=platforms::$PLATFORMS"
-          echo "::set-output name=variant::$VARIANT"
-
-      - name: Generate Docker image metadata
-        uses: docker/metadata-action@69f6fc9d46f2f8bf0d5491e4aabe0bb8c6a4678a # tag=v4.0.1
-        id: meta
-        with:
-          images: ${{ inputs.images }}
-          tags: |
-            ${{ steps.recipe.outputs.tags-list }}
-
-      - name: Output the workdir
-        id: workdir
-        run: echo "::set-output name=dirs::${{ matrix.workdir }}"
-
-  build:
-    needs: metadata
-
-    strategy:
-      matrix: # REFS: https://github.community/t/reusable-workflow-with-strategy-matrix/205676
-        platform: ${{ fromJSON(needs.metadata.outputs.platforms) }}
+        platforms: ${{ fromJSON(inputs.platforms) }}
 
     runs-on: ubuntu-latest
 
@@ -112,11 +69,11 @@ jobs:
         id: docker_build
         uses: docker/build-push-action@c84f38281176d4c9cdb1626ffafcd6b3911b5d94 # tag=v3.1.1
         with:
-          context: ${{ needs.metadata.outputs.workdir }}
+          context: ${{ matrix.workdir }}
           platforms: ${{ matrix.platform }}
           push: ${{ github.event_name == 'push' }}
-          tags: ${{ needs.metadata.outputs.tags }}
-          labels: ${{ needs.metadata.outputs.labels }}
+          tags: ${{ inputs.tags }}
+          labels: ${{ inputs.labels }}
 
       # Well, turns out it doesn't support PAT yet. Please see https://github.com/peter-evans/dockerhub-description/issues/24 and https://github.com/docker/roadmap/issues/115
       #- name: Update repo description
