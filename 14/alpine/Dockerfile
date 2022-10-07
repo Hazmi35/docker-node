@@ -11,5 +11,4 @@ RUN apk add --no-cache \
     tini \
     tzdata
 
-# Set entrypoint to use tini init
 ENTRYPOINT [ "tini", "--", "docker-entrypoint.sh" ]
