@@ -24,6 +24,7 @@ jobs:
       tags: ${{ steps.meta.outputs.tags }}
       labels: ${{ steps.meta.outputs.labels }}
       platforms: ${{ steps.recipe.outputs.platforms }}
+      workdirs: ${{ inputs.workdirs }}
 
     runs-on: ubuntu-latest
 

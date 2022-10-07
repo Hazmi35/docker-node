@@ -29,9 +29,9 @@ jobs:
 
   build:
     uses: ./.github/workflows/build.yml
-    needs: [workdirs, metadata]
+    needs: metadata
     with:
-      workdirs: ${{ needs.workdirs.outputs.workdirs-array }}
+      workdirs: ${{ needs.metadata.outputs.workdirs }}
       tags: ${{ needs.metadata.outputs.tags }}
       labels: ${{ needs.metadata.outputs.labels }}
       platforms: ${{ needs.metadata.outputs.platforms }}
