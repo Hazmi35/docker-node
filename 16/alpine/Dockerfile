@@ -10,3 +10,5 @@ WORKDIR /app
 RUN apk add --no-cache \
     tini \
     tzdata
+
+ENTRYPOINT [ "tini", "--", "docker-entrypoint.sh" ]
