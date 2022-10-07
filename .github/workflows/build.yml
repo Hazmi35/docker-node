@@ -51,11 +51,11 @@ jobs:
           PLATFORMS=`echo $RESULT | jq -cMr .platforms`
           VARIANT=`echo $RESULT | jq -cMr .variant`
           TAGS_LIST=`node -p 'JSON.parse(process.argv.slice(1)).join("\n")' $TAGS`
-          echo TAGS: $TAGS
-          echo PLATFORMS: $PLATFORMS
-          echo VARIANT: $VARIANT
+          TAGS_LIST="${TAGS_LIST//'%'/'%25'}"
+          TAGS_LIST="${TAGS_LIST//$'\n'/'%0A'}"
+          TAGS_LIST="${TAGS_LIST//$'\r'/'%0D'}"
           echo "::set-output name=tags::$TAGS"
-          echo "::set-output name=tags-list::${TAGS_LIST//$', '/'%0A'}"
+          echo "::set-output name=tags-list::${TAGS_LIST}"
           echo "::set-output name=platforms::$PLATFORMS"
           echo "::set-output name=variant::$VARIANT"
 
