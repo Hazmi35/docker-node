@@ -53,7 +53,7 @@ jobs:
           echo TAGS: $TAGS
           echo PLATFORMS: $PLATFORMS
           echo VARIANT: $VARIANT
-          echo "::set-output name=tags::$TAGS:"
+          echo "::set-output name=tags::$TAGS"
           echo "::set-output name=platforms::$PLATFORMS"
           echo "::set-output name=variant::$VARIANT"
 
@@ -63,7 +63,7 @@ jobs:
         with:
           images: ${{ inputs.images }}
           tags: |
-            ${{ join(fromJSON(steps.recipe.outputs.tags), "\n") }}
+            ${{ join(fromJSON(steps.recipe.outputs.tags), '/'%0A') }}
 
   build:
     needs: metadata
