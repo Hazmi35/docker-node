@@ -18,5 +18,4 @@ RUN apt-get update \
     && apt-get autoclean -y \
     && rm -rf /var/lib/apt/lists/*
 
-# Set entrypoint to use tini init
 ENTRYPOINT [ "tini", "--", "docker-entrypoint.sh" ]
