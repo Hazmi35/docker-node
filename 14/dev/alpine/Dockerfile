@@ -19,4 +19,5 @@ RUN ln -s /usr/bin/python3 /usr/local/bin/python
 # Set jobs to max in npm global config
 RUN npm config set jobs max --global
 
+# Set entrypoint to use tini init
 ENTRYPOINT [ "tini", "--", "docker-entrypoint.sh" ]
