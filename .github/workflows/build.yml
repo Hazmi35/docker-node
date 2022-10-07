@@ -24,11 +24,15 @@ permissions:
   packages: write
 
 jobs:
-  build:
-    continue-on-error: true
+  metadata:
     strategy:
       matrix: # REFS: https://github.community/t/reusable-workflow-with-strategy-matrix/205676
         workdir: ${{ fromJSON(inputs.workdirs) }}
+
+    outputs:
+      tags: ${{ steps.meta.outputs.tags }}
+      labels: ${{ steps.meta.outputs.labels }}
+      platforms: ${{ steps.recipe.outputs.platforms }}
 
     runs-on: ubuntu-latest
 
@@ -49,24 +53,35 @@ jobs:
       - name: Extract recipe from Dockerfile
         id: recipe
         run: |
-          TAGS=`npm exec -sy @hazmi35/extract-docker-baseimg-recipe ${{ matrix.workdir }}/Dockerfile tags`
-          PLATFORMS=`npm exec -sy @hazmi35/extract-docker-baseimg-recipe ${{ matrix.workdir }}/Dockerfile platforms`
-          VARIANT=`npm exec -sy @hazmi35/extract-docker-baseimg-recipe ${{ matrix.workdir }}/Dockerfile variant`
+          RESULT=`npm exec -sy @hazmi35/extract-docker-baseimg-recipe ${{ matrix.workdir }}/Dockerfile`
+          TAGS=`echo $RESULT | jq -cMr .tags`
+          PLATFORMS=`echo $RESULT | jq -cMr .platforms`
+          VARIANT=`echo $RESULT | jq -cMr .variant`
           echo TAGS: $TAGS
           echo PLATFORMS: $PLATFORMS
           echo VARIANT: $VARIANT
-          echo "::set-output name=tags::${TAGS//$', '/'%0A'}"
-          echo "::set-output name=platforms::${PLATFORMS//$', '/'%0A'}"
-          echo "::set-output name=variant::$VARIANT"
+          echo '::set-output name=tags::"$TAGS:"'
+          echo '::set-output name=platforms::"$PLATFORMS"'
+          echo '::set-output name=variant::$VARIANT'
 
       - name: Generate Docker image metadata
         uses: docker/metadata-action@69f6fc9d46f2f8bf0d5491e4aabe0bb8c6a4678a # tag=v4.0.1
         id: meta
         with:
           images: ${{ inputs.images }}
-          tags: |
-            ${{ steps.recipe.outputs.tags }}
+          tags: ${{ fromJSON(steps.recipe.outputs.tags) }}
 
+  build:
+    needs: metadata
+
+    strategy:
+      matrix: # REFS: https://github.community/t/reusable-workflow-with-strategy-matrix/205676
+        workdir: ${{ fromJSON(inputs.workdirs) }}
+        platform: ${{ fromJSON(needs.metadata.outputs.platforms) }}
+
+    runs-on: ubuntu-latest
+
+    steps:
       - name: Login to Docker Hub
         if: ${{ github.event_name != 'pull_request' }}
         uses: docker/login-action@49ed152c8eca782a232dede0303416e8f356c37b # tag=v2.0.0
@@ -88,11 +103,10 @@ jobs:
         uses: docker/build-push-action@c84f38281176d4c9cdb1626ffafcd6b3911b5d94 # tag=v3.1.1
         with:
           context: ${{ matrix.workdir }}
-          platforms: |
-            ${{ steps.recipe.outputs.platforms }}
+          platforms: ${{ matrix.platform }}
           push: ${{ github.event_name == 'push' }}
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+          tags: ${{ needs.metadata.outputs.tags }}
+          labels: ${{ needs.metadata.outputs.labels }}
 
       # Well, turns out it doesn't support PAT yet. Please see https://github.com/peter-evans/dockerhub-description/issues/24 and https://github.com/docker/roadmap/issues/115
       #- name: Update repo description
