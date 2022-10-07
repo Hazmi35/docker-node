@@ -33,6 +33,7 @@ jobs:
       tags: ${{ steps.meta.outputs.tags }}
       labels: ${{ steps.meta.outputs.labels }}
       platforms: ${{ steps.recipe.outputs.platforms }}
+      workdir: ${{ steps.workdir.outputs.dirs }}
 
     runs-on: ubuntu-latest
 
@@ -67,12 +68,15 @@ jobs:
           tags: |
             ${{ steps.recipe.outputs.tags-list }}
 
+      - name: Output the workdir
+        id: workdir
+        run: echo "::set-output name=dirs::${{ matrix.workdir }}"
+
   build:
     needs: metadata
 
     strategy:
       matrix: # REFS: https://github.community/t/reusable-workflow-with-strategy-matrix/205676
-        workdir: ${{ fromJSON(inputs.workdirs) }}
         platform: ${{ fromJSON(needs.metadata.outputs.platforms) }}
 
     runs-on: ubuntu-latest
@@ -108,7 +112,7 @@ jobs:
         id: docker_build
         uses: docker/build-push-action@c84f38281176d4c9cdb1626ffafcd6b3911b5d94 # tag=v3.1.1
         with:
-          context: ${{ matrix.workdir }}
+          context: ${{ needs.metadata.outputs.workdir }}
           platforms: ${{ matrix.platform }}
           push: ${{ github.event_name == 'push' }}
           tags: ${{ needs.metadata.outputs.tags }}
