@@ -5,12 +5,14 @@ on:
     branches:
       - main
     paths:
-      - "18/**/Dockerfile"
+      - "14/**/Dockerfile"
+      - ".github/workflows"
   pull_request:
     branches:
       - main
     paths:
-      - "18/**/Dockerfile"
+      - "14/**/Dockerfile"
+      - ".github/workflows"
 
 jobs:
   workdirs:
