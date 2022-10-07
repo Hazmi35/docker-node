@@ -12,6 +12,7 @@ RUN apt-get update \
         build-essential \
         git \
         python3 python-is-python3 \
+        tini \
     && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
     && apt-get autoremove -y \
     && apt-get autoclean -y \
@@ -19,3 +20,5 @@ RUN apt-get update \
 
 # Set jobs to max in npm global config
 RUN npm config set jobs max --global
+
+ENTRYPOINT [ "tini", "--", "docker-entrypoint.sh" ]
