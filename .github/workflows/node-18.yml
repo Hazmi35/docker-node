@@ -6,13 +6,11 @@ on:
       - main
     paths:
       - "14/**/Dockerfile"
-      - ".github/workflows/*.yml"
   pull_request:
     branches:
       - main
     paths:
       - "14/**/Dockerfile"
-      - ".github/workflows/*.yml"
 
 jobs:
   workdirs:
