@@ -62,7 +62,7 @@ jobs:
         id: meta
         with:
           images: ${{ inputs.images }}
-          tags: ${{ fromJSON(steps.recipe.outputs.tags) }}
+          tags: ${{ join(fromJSON(steps.recipe.outputs.tags), '/'%0A') }}
 
   build:
     needs: metadata
