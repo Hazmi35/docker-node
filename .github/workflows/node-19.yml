@@ -1,0 +1,33 @@
+name: Build & Push Node.js 19 to OCI Image Registry
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "19/**/Dockerfile"
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "19/**/Dockerfile"
+
+jobs:
+  workdirs:
+    uses: ./.github/workflows/specify-workdir.yml
+    with:
+      base-dir: 19
+
+  image:
+    uses: ./.github/workflows/build.yml
+    needs: workdirs
+    with:
+      workdirs: ${{ needs.workdirs.outputs.workdirs-array }}
+      images: |
+        docker.io/hazmi35/node
+        ghcr.io/hazmi35/node
+    secrets:
+      docker-hub-username: hazmi35
+      docker-hub-access-token: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+      ghcr-username: ${{ github.repository_owner }}
+      ghcr-access-token: ${{ secrets.GITHUB_TOKEN }}
