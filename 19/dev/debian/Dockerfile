@@ -19,6 +19,6 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 # Set jobs to max in npm global config
-RUN npm config set jobs max --global
+RUN echo "jobs=max" >> /usr/local/etc/npmrc
 
 ENTRYPOINT [ "tini", "--", "docker-entrypoint.sh" ]
