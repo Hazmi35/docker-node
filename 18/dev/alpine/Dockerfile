@@ -17,7 +17,8 @@ RUN apk add --no-cache \
 RUN ln -s /usr/bin/python3 /usr/local/bin/python
 
 # Set jobs to max in npm global config
-RUN touch /usr/local/etc/npmrc \
+RUN mkdir -p /usr/local/etc \
+    && touch /usr/local/etc/npmrc \
     && echo "jobs=max" >> /usr/local/etc/npmrc
 
 ENTRYPOINT [ "tini", "--", "docker-entrypoint.sh" ]
