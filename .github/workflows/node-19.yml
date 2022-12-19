@@ -11,6 +11,7 @@ on:
       - main
     paths:
       - "19/**/Dockerfile"
+  workflow_dispatch:
 
 jobs:
   workdirs:
