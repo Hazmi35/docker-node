@@ -36,9 +36,9 @@ jobs:
 
       - name: Generate a list of changed Dockerfiles
         id: workdirs
-        run: echo "::set-output name=list::$(git --no-pager diff --name-only HEAD^ ${{ inputs.base-dir }} | sed 's/\/Dockerfile//g' | sed ':a;N;$!ba;s/\n/ /g')"
+        run: echo "list=$(git --no-pager diff --name-only HEAD^ ${{ inputs.base-dir }} | sed 's/\/Dockerfile//g' | sed ':a;N;$!ba;s/\n/ /g')" >> $GITHUB_OUTPUT
         shell: bash
 
       - name: Generate a JSON array of list
         id: array
-        run: echo "::set-output name=result::$(node -p 'JSON.stringify(process.argv.slice(1))' ${{ steps.workdirs.outputs.list }})"
+        run: echo "result=$(node -p 'JSON.stringify(process.argv.slice(1))' ${{ steps.workdirs.outputs.list }})" >> $GITHUB_OUTPUT
