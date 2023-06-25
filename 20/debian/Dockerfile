@@ -1,7 +1,7 @@
 # TAGS: iron, current, latest
 # VARIANT:
 # PLATFORMS: linux/amd64, linux/arm64/v8, linux/ppc64le
-FROM docker.io/library/node:20.2.0-slim
+FROM docker.io/library/node:20.3.1-slim
 
 # Set workdir
 WORKDIR /app
