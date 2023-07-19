@@ -1,7 +1,7 @@
 # TAGS: gallium, oldlts
 # VARIANT: alpine
 # PLATFORMS: linux/amd64, linux/arm64/v8, linux/arm/v7, linux/arm/v6, linux/ppc64le
-FROM docker.io/library/node:16.20.1-alpine
+FROM docker.io/library/node:18.17.0-alpine
 
 # Set workdir
 WORKDIR /app
