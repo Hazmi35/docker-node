@@ -1,7 +1,7 @@
 # TAGS: gallium, oldlts
 # VARIANT:
 # PLATFORMS: linux/amd64, linux/arm64/v8, linux/arm/v7, linux/ppc64le
-FROM docker.io/library/node:16.20.1-bullseye-slim
+FROM docker.io/library/node:19.9.0-bullseye-slim
 
 # Set workdir
 WORKDIR /app

@@ -1,7 +1,7 @@
 # TAGS: hydrogen, lts
 # VARIANT:
 # PLATFORMS: linux/amd64, linux/arm64/v8, linux/ppc64le
-FROM docker.io/library/node:18.17.0-slim
+FROM docker.io/library/node:19.9.0-slim
 
 # Set workdir
 WORKDIR /app
