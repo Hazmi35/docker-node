@@ -1,6 +1,6 @@
 # TAGS: iron, current, latest
 # VARIANT: dev-alpine
-# PLATFORMS: linux/amd64, linux/arm64/v8, linux/arm/v7, linux/arm/v6, linux/ppc64le, linux/s390x
+# PLATFORMS: linux/amd64, linux/arm64/v8, linux/arm/v7, linux/arm/v6, linux/ppc64le
 FROM docker.io/library/node:20.5.1-alpine
 
 # Set workdir
