@@ -1,7 +1,7 @@
 # TAGS: iron, current, latest
 # VARIANT: alpine
 # PLATFORMS: linux/amd64, linux/arm64/v8, linux/arm/v7, linux/arm/v6, linux/ppc64le
-FROM docker.io/library/node:20.8.1-alpine
+FROM docker.io/library/node:21.0.0-alpine
 
 # Set workdir
 WORKDIR /app
