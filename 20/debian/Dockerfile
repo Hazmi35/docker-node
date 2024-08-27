@@ -19,3 +19,4 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 ENTRYPOINT [ "tini", "--", "docker-entrypoint.sh" ]
+#

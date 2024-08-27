@@ -24,3 +24,4 @@ RUN mkdir -p /usr/local/etc \
     && echo "jobs=max" >> /usr/local/etc/npmrc
 
 ENTRYPOINT [ "tini", "--", "docker-entrypoint.sh" ]
+#
