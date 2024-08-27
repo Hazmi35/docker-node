@@ -1,6 +1,6 @@
 # TAGS: current, latest
 # VARIANT: alpine
-# PLATFORMS: linux/amd64, linux/arm64/v8, linux/arm/v7, linux/arm/v6, linux/ppc64le, linux/s390x
+# PLATFORMS: linux/amd64, linux/arm64/v8, linux/arm/v7, linux/arm/v6, linux/s390x
 FROM docker.io/library/node:22.7.0-alpine
 
 # Set workdir
