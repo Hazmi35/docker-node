@@ -4,7 +4,7 @@
     "packageRules": [
         {
             "matchDatasources": ["docker"],
-            "matchPackageNames": ["node"],
+            "matchPackageNames": ["docker.io/library/node", "node"],
             "versioning": "semver"
         }
     ],
