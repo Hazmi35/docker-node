@@ -1,6 +1,6 @@
 {
     "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-    "extends": ["github>frutbits/renovate-config"],
+    "extends": ["github>kakushindev/renovate-config"],
     "packageRules": [
         {
             "matchDatasources": ["docker"],
