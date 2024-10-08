@@ -27,18 +27,18 @@ jobs:
 
     steps:
       - name: Check Out Repository
-        uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3.6.0
+        uses: actions/checkout@v4.2.1
         with:
           fetch-depth: 0
 
       - name: Set up Node.js for generating JSON Array
-        uses: actions/setup-node@1a4442cacd436585916779262731d5b162bc6ec7 # v3.8.2
+        uses: actions/setup-node@v4.0.4
 
       - name: Generate a list of changed Dockerfiles
         id: workdirs
-        run: echo "::set-output name=list::$(git --no-pager diff --name-only HEAD^ ${{ inputs.base-dir }} | sed 's/\/Dockerfile//g' | sed ':a;N;$!ba;s/\n/ /g')"
+        run: echo "list=$(git --no-pager diff --name-only HEAD^ ${{ inputs.base-dir }} | sed 's/\/Dockerfile//g' | sed ':a;N;$!ba;s/\n/ /g')" >> $GITHUB_OUTPUT
         shell: bash
 
       - name: Generate a JSON array of list
         id: array
-        run: echo "::set-output name=result::$(node -p 'JSON.stringify(process.argv.slice(1))' ${{ steps.workdirs.outputs.list }})"
+        run: echo "result=$(node -p 'JSON.stringify(process.argv.slice(1))' ${{ steps.workdirs.outputs.list }})" >> $GITHUB_OUTPUT
