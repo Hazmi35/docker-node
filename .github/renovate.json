@@ -6,8 +6,10 @@
             "matchDatasources": ["docker"],
             "matchPackageNames": ["node"],
             "versioning": "semver",
-            "automerge": false,
-            "matchUpdateTypes": ["minor", "patch"]
+            "automerge": false
         }
-    ]
+    ],
+    "major": { "enabled": false },
+    "minor": { "enabled": true  },
+    "patch": { "enabled": true  }
 }
