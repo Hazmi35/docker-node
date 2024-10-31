@@ -1,4 +1,4 @@
-# TAGS: current, latest
+# TAGS: jod, lts
 # VARIANT:
 # PLATFORMS: linux/amd64, linux/arm64/v8, linux/arm/v7, linux/ppc64le, linux/s390x
 FROM docker.io/library/node:22.11.0-slim

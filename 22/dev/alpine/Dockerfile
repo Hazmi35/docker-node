@@ -1,4 +1,4 @@
-# TAGS: current, latest
+# TAGS: jod, lts
 # VARIANT: dev-alpine
 # PLATFORMS: linux/amd64, linux/arm64/v8, linux/arm/v7, linux/arm/v6, linux/s390x
 FROM docker.io/library/node:22.11.0-alpine
