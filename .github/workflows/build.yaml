@@ -49,13 +49,16 @@ jobs:
       - name: Extract recipe from Dockerfile
         id: recipe
         run: |
-          TAGS=`npm exec -sy @hazmi35/extract-docker-baseimg-recipe ${{ matrix.workdir }}/Dockerfile tags`
+          TAGS=`npm exec -sy @hazmi35/extract-docker-baseimg-recipe ${{ matrix.workdir }}/Dockerfile -s \\n tags`
           PLATFORMS=`npm exec -sy @hazmi35/extract-docker-baseimg-recipe ${{ matrix.workdir }}/Dockerfile platforms`
           VARIANT=`npm exec -sy @hazmi35/extract-docker-baseimg-recipe ${{ matrix.workdir }}/Dockerfile variant`
           echo TAGS: $TAGS
           echo PLATFORMS: $PLATFORMS
           echo VARIANT: $VARIANT
-          echo "tags=${TAGS//$', '/'%0A'}" >> $GITHUB_OUTPUT
+          delimiter="$(openssl rand -hex 8)"
+          echo "tags<<${delimiter}" >> ${GITHUB_OUTPUT}
+          echo "$TAGS" >> ${GITHUB_OUTPUT}
+          echo "${delimiter}" >> ${GITHUB_OUTPUT}
           echo "platforms=$PLATFORMS" >> $GITHUB_OUTPUT
           echo "variant=$VARIANT" >> $GITHUB_OUTPUT
 
