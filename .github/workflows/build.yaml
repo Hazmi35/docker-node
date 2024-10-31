@@ -49,7 +49,7 @@ jobs:
       - name: Extract recipe from Dockerfile
         id: recipe
         run: |
-          TAGS=`npm exec -sy @hazmi35/extract-docker-baseimg-recipe ${{ matrix.workdir }}/Dockerfile -s \\n tags`
+          TAGS=`npm exec -sy @hazmi35/extract-docker-baseimg-recipe -s \\n  ${{ matrix.workdir }}/Dockerfile tags`
           PLATFORMS=`npm exec -sy @hazmi35/extract-docker-baseimg-recipe ${{ matrix.workdir }}/Dockerfile platforms`
           VARIANT=`npm exec -sy @hazmi35/extract-docker-baseimg-recipe ${{ matrix.workdir }}/Dockerfile variant`
           echo TAGS: $TAGS
