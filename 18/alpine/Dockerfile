@@ -12,3 +12,4 @@ RUN apk add --no-cache \
     tzdata
 
 ENTRYPOINT [ "tini", "--", "docker-entrypoint.sh" ]
+

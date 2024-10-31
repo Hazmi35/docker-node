@@ -55,7 +55,7 @@ jobs:
           echo TAGS: $TAGS
           echo PLATFORMS: $PLATFORMS
           echo VARIANT: $VARIANT
-          echo -e "type=raw,value=${TAGS//, /\n},enable=true,priority=200" >> $GITHUB_OUTPUTecho -e "tags=${TAGS//, /\n}" >> $GITHUB_OUTPUT
+          echo -e "type=raw,value=${TAGS//, /\n},enable=true,priority=200" >> $GITHUB_OUTPUT
           echo "platforms=$PLATFORMS" >> $GITHUB_OUTPUT
           echo "variant=$VARIANT" >> $GITHUB_OUTPUT
 
