@@ -1,7 +1,7 @@
-# TAGS: hydrogen
+# TAGS: current, latest
 # VARIANT:
 # PLATFORMS: linux/amd64, linux/arm64/v8, linux/arm/v7, linux/ppc64le, linux/s390x
-FROM docker.io/library/node:18.20.4-slim
+FROM docker.io/library/node:23.1.0-slim
 
 # Set workdir
 WORKDIR /app
@@ -19,4 +19,3 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 ENTRYPOINT [ "tini", "--", "docker-entrypoint.sh" ]
-
