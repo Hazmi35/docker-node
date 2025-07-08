@@ -13,6 +13,7 @@ RUN apt-get update \
         procps \
         tini \
         tzdata \
+        ca-certificates \
     && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
     && apt-get autoremove -y \
     && apt-get autoclean -y \
