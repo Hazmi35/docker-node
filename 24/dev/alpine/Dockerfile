@@ -1,7 +1,7 @@
 # TAGS: current, latest, krypton
 # VARIANT: dev-alpine
 # PLATFORMS: linux/amd64, linux/arm64/v8, linux/s390x
-FROM docker.io/library/node:24.4.1-alpine
+FROM docker.io/library/node:24.5.0-alpine
 
 # Set workdir
 WORKDIR /tmp/build
