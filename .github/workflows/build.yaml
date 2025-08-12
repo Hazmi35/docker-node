@@ -34,7 +34,7 @@ jobs:
 
     steps:
       - name: Check Out Repository
-        uses: actions/checkout@v4.2.2
+        uses: actions/checkout@v4.3.0
 
       - name: Set up QEMU for Docker Buildx
         uses: docker/setup-qemu-action@v3.6.0
