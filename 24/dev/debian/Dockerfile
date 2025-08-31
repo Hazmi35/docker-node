@@ -1,7 +1,7 @@
 # TAGS: current, latest, krypton
 # VARIANT: dev
 # PLATFORMS: linux/amd64, linux/arm64/v8, linux/ppc64le, linux/s390x
-FROM docker.io/library/node:24.6.0-slim
+FROM docker.io/library/node:24.7.0-slim
 
 # Set workdir
 WORKDIR /tmp/build
