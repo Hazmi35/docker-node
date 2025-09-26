@@ -1,7 +1,7 @@
 # TAGS: jod, lts
 # VARIANT: dev
 # PLATFORMS: linux/amd64, linux/arm64/v8, linux/arm/v7, linux/ppc64le, linux/s390x
-FROM docker.io/library/node:22.19.0-slim
+FROM docker.io/library/node:22.20.0-slim
 
 # Set workdir
 WORKDIR /tmp/build
