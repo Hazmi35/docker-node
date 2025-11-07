@@ -1,22 +1,22 @@
-name: Build & Push Node.js 18 to OCI Image Registry
+name: Build & Push Node.js 25 to OCI Image Registry
 
 on:
   push:
     branches:
       - main
     paths:
-      - "18/**/Dockerfile"
+      - "25/**/Dockerfile"
   pull_request:
     branches:
       - main
     paths:
-      - "18/**/Dockerfile"
+      - "25/**/Dockerfile"
 
 jobs:
   workdirs:
     uses: ./.github/workflows/specify-workdir.yaml
     with:
-      base-dir: 18
+      base-dir: 25
 
   image:
     uses: ./.github/workflows/build.yaml

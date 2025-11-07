@@ -1,7 +1,7 @@
-# TAGS: hydrogen
+# TAGS: current, latest
 # VARIANT: alpine
-# PLATFORMS: linux/amd64, linux/arm64/v8, linux/arm/v7, linux/arm/v6, linux/ppc64le, linux/s390x
-FROM docker.io/library/node:18.20.8-alpine
+# PLATFORMS: linux/amd64, linux/arm64/v8, linux/s390x
+FROM docker.io/library/node:25.1.0-alpine
 
 # Set workdir
 WORKDIR /app
