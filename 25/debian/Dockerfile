@@ -1,7 +1,7 @@
 # TAGS: current, latest
 # VARIANT:
 # PLATFORMS: linux/amd64, linux/arm64/v8, linux/ppc64le, linux/s390x
-FROM docker.io/library/node:25.2.0-slim
+FROM docker.io/library/node:25.2.1-slim
 
 # Set workdir
 WORKDIR /app
