@@ -60,7 +60,7 @@ jobs:
           echo "::set-output name=variant::$VARIANT"
 
       - name: Generate Docker image metadata
-        uses: docker/metadata-action@v5.9.0
+        uses: docker/metadata-action@v5.10.0
         id: meta
         with:
           images: ${{ inputs.images }}
