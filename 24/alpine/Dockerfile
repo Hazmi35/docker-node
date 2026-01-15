@@ -1,7 +1,7 @@
 # TAGS: lts, krypton
 # VARIANT: alpine
 # PLATFORMS: linux/amd64, linux/arm64/v8, linux/s390x
-FROM docker.io/library/node:24.12.0-alpine
+FROM docker.io/library/node:24.13.0-alpine
 
 # Set workdir
 WORKDIR /app
