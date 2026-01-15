@@ -1,7 +1,7 @@
 # TAGS: jod
 # VARIANT: alpine
 # PLATFORMS: linux/amd64, linux/arm64/v8, linux/arm/v7, linux/arm/v6, linux/s390x
-FROM docker.io/library/node:22.21.1-alpine
+FROM docker.io/library/node:22.22.0-alpine
 
 # Set workdir
 WORKDIR /app
