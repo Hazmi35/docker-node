@@ -1,7 +1,7 @@
 # TAGS: iron, oldlts
 # VARIANT:
 # PLATFORMS: linux/amd64, linux/arm64/v8, linux/arm/v7, linux/ppc64le, linux/s390x
-FROM docker.io/library/node:20.20.0-slim
+FROM docker.io/library/node:20.20.0-slim@sha256:6c51af7dc83f4708aaac35991306bca8f478351cfd2bda35750a62d7efcf05bb
 
 # Set workdir
 WORKDIR /app
