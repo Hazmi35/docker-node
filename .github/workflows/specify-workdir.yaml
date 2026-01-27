@@ -27,12 +27,12 @@ jobs:
 
     steps:
       - name: Check Out Repository
-        uses: actions/checkout@v4.3.1
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
         with:
           fetch-depth: 0
 
       - name: Set up Node.js for generating JSON Array
-        uses: actions/setup-node@v4.4.0
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
 
       - name: Generate a list of changed Dockerfiles
         id: workdirs
