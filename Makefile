@@ -14,6 +14,11 @@ generate-bake: ## Generate docker-bake.hcl from Dockerfile metadata
 	@echo "Generating Docker Bake configuration..."
 	@python3 scripts/generate-bake.py
 	@echo "✅ Generated docker-bake.hcl"
+	@if git diff --quiet docker-bake.hcl; then \
+		echo "📝 No changes to docker-bake.hcl"; \
+	else \
+		echo "📝 docker-bake.hcl has changes - consider committing"; \
+	fi
 
 build: generate-bake ## Build all images (dry-run, no push)
 	@echo "Building all Docker images..."
