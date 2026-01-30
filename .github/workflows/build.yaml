@@ -58,12 +58,17 @@ jobs:
             org.opencontainers.image.description=Custom Node.js base images for Docker containers
             org.opencontainers.image.vendor=hazmi35
 
+      - name: Set lowercase username
+        id: username
+        run: |
+          echo "docker_username=$(echo '${{ github.repository_owner }}' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_OUTPUT
+
       - name: Login to Docker Hub
         if: ${{ inputs.push }}
         uses: docker/login-action@c94ce9fb468520275223c153574b00df6fe4bcc9 # v3.7.0
         with:
           registry: docker.io
-          username: ${{ github.repository_owner }}
+          username: ${{ steps.username.outputs.docker_username }}
           password: ${{ secrets.docker-hub-access-token }}
 
       - name: Login to GitHub Container Registry
@@ -71,7 +76,7 @@ jobs:
         uses: docker/login-action@c94ce9fb468520275223c153574b00df6fe4bcc9 # v3.7.0
         with:
           registry: ghcr.io
-          username: ${{ github.repository_owner }}
+          username: ${{ steps.username.outputs.docker_username }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and push Docker images
