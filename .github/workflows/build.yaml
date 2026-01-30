@@ -90,7 +90,7 @@ jobs:
             [registry."docker.io"]
               mirrors = ["mirror.gcr.io"]
 
-      - name: Generate Docker image metadata
+      - name: Generate Docker image metadata (labels only)
         uses: docker/metadata-action@c299e40c65443455700f0fdfc63efafe5b349051 # v5
         id: meta
         with:
@@ -129,7 +129,7 @@ jobs:
         with:
           files: |
             docker-bake.hcl
-            ${{ steps.meta.outputs.bake-file }}
+            ${{ steps.meta.outputs.bake-file-labels }}
           targets: ${{ matrix.target }}
           push: ${{ inputs.push }}
         env:
