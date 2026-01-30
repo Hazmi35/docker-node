@@ -12,8 +12,8 @@ from pathlib import Path
 
 
 def extract_metadata(dockerfile_path):
-    """Extract metadata from Dockerfile comments"""
-    metadata = {"tags": "", "variant": "", "platforms": ""}
+    """Extract metadata from Dockerfile comments and FROM line"""
+    metadata = {"tags": "", "variant": "", "platforms": "", "node_version": ""}
 
     with open(dockerfile_path, "r") as f:
         content = f.read()
@@ -26,6 +26,14 @@ def extract_metadata(dockerfile_path):
             metadata["variant"] = line.replace("# VARIANT:", "").strip()
         elif line.startswith("# PLATFORMS:"):
             metadata["platforms"] = line.replace("# PLATFORMS:", "").strip()
+        elif line.startswith("FROM") and "node:" in line:
+            # Extract Node.js version from FROM line
+            # e.g., "FROM docker.io/library/node:25.5.0-alpine@sha256..." -> "25.5.0"
+            import re
+
+            match = re.search(r"node:(\d+\.\d+\.\d+)", line)
+            if match:
+                metadata["node_version"] = match.group(1)
 
     return metadata
 
@@ -35,7 +43,7 @@ def generate_target_name(path):
     return path.replace("/", "-")
 
 
-def generate_tags(dockerfile_tags, variant, node_version, is_dev):
+def generate_tags(dockerfile_tags, variant, node_version, is_dev, full_semver):
     """Generate tags for a target"""
     tags = []
 
@@ -55,10 +63,24 @@ def generate_tags(dockerfile_tags, variant, node_version, is_dev):
         else:
             base_suffix = ""
 
-    # Add version-specific tags
+    # Add version-specific tags (major only for now, will add semver)
     tags.append(node_version)
     if base_suffix:
         tags.append(f"{node_version}-{base_suffix}")
+
+    # Add full semver tags if available
+    if full_semver and full_semver != node_version:
+        tags.append(full_semver)
+        if base_suffix:
+            tags.append(f"{full_semver}-{base_suffix}")
+
+        # Add major.minor tags
+        parts = full_semver.split(".")
+        if len(parts) >= 2:
+            major_minor = f"{parts[0]}.{parts[1]}"
+            tags.append(major_minor)
+            if base_suffix:
+                tags.append(f"{major_minor}-{base_suffix}")
 
     # Add alias tags from Dockerfile
     if dockerfile_tags:
@@ -213,7 +235,11 @@ def main():
 
         # Generate tags
         tags = generate_tags(
-            metadata["tags"], metadata["variant"], node_version, is_dev
+            metadata["tags"],
+            metadata["variant"],
+            node_version,
+            is_dev,
+            metadata["node_version"],
         )
 
         # Convert platforms to list

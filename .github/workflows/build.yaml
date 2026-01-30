@@ -94,9 +94,7 @@ jobs:
             docker.io/hazmi35/node
             ghcr.io/hazmi35/node
           tags: |
-            type=ref,event=branch
-            type=ref,event=pr
-            type=sha,prefix=sha-
+            type=raw,value=dummy
           labels: |
             org.opencontainers.image.title=Node.js Docker Images
             org.opencontainers.image.description=Custom Node.js base images for Docker containers
