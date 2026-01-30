@@ -45,8 +45,8 @@ jobs:
           # Use the dedicated matrix generation script
           targets="${{ inputs.targets }}"
 
-          # Generate matrix using Python script
-          matrix=$(python3 scripts/generate-matrix.py "$targets")
+          # Generate matrix using Python script (compact JSON)
+          matrix=$(python3 scripts/generate-matrix.py "$targets" --quiet | jq -c '.')
 
           # Check if matrix is empty
           target_count=$(echo "$matrix" | jq '.include | length')
