@@ -31,6 +31,7 @@ jobs:
         uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
           fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
 
       - name: Set up Python
         uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
@@ -46,6 +47,11 @@ jobs:
             changed_files="manual"
             echo "Manual dispatch - building targets: $targets"
           else
+            # For PRs, ensure we have the base branch
+            if [ "${{ github.event_name }}" = "pull_request" ]; then
+              git fetch origin ${{ github.event.pull_request.base.ref }}:origin/${{ github.event.pull_request.base.ref }}
+            fi
+
             # Use the Python script to detect changes
             output=$(python3 scripts/generate-bake.py --detect-changes)
             changed_files=$(echo "$output" | grep "CHANGED_FILES=" | cut -d'=' -f2-)
@@ -66,7 +72,7 @@ jobs:
 
   build:
     needs: detect-changes
-    if: needs.detect-changes.outputs.should-build == 'true'
+    if: always() && needs.detect-changes.outputs.should-build != 'false'
     uses: ./.github/workflows/build.yaml
     with:
       targets: ${{ needs.detect-changes.outputs.targets }}
