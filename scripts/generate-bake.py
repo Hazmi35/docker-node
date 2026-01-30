@@ -195,8 +195,6 @@ def main():
   default = false
 }
 
-
-
 """
 
     version_groups = defaultdict(list)
@@ -274,7 +272,7 @@ target "{target_name}" {{
 '''
 
     # Add group configurations
-    bake_content += "\n# Groups by Node.js version\n"
+    bake_content += "# Groups by Node.js version\n"
     for version in sorted(version_groups.keys(), key=int):
         targets = version_groups[version]
         targets_hcl = ", ".join(f'"{target}"' for target in targets)
