@@ -1,23 +1,27 @@
-name: Build & Push OCI Image to OCI Image Registry
+name: Build & Push Docker Images
 
 on:
   workflow_call:
     inputs:
-      workdirs:
-        required: true
+      targets:
+        description: "Docker Bake targets to build"
+        required: false
         type: string
-      images:
-        required: true
-        type: string
+        default: "all"
+      push:
+        description: "Push images to registry"
+        required: false
+        type: boolean
+        default: false
     secrets:
       docker-hub-username:
-        required: true
+        required: false
       docker-hub-access-token:
-        required: true
+        required: false
       ghcr-username:
-        required: true
+        required: false
       ghcr-access-token:
-        required: true
+        required: false
 
 permissions:
   contents: read
@@ -25,79 +29,63 @@ permissions:
 
 jobs:
   build:
-    continue-on-error: true
-    strategy:
-      matrix: # REFS: https://github.community/t/reusable-workflow-with-strategy-matrix/205676
-        workdir: ${{ fromJSON(inputs.workdirs) }}
-
     runs-on: ubuntu-latest
-
     steps:
       - name: Check Out Repository
-        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Generate Docker Bake configuration
+        run: python3 scripts/generate-bake.py
 
       - name: Set up QEMU for Docker Buildx
-        uses: docker/setup-qemu-action@c7c53464625b32c7a7e944ae62b3e17d2b600130 # v3.7.0
+        uses: docker/setup-qemu-action@v3
 
       - name: Set up Docker Buildx
-        id: buildx
-        uses: docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f # v3.12.0
-
-      - name: Set up Node.js for extracting recipe from Dockerfile
-        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
-
-      - name: Extract recipe from Dockerfile
-        id: recipe
-        run: |
-          TAGS=`npm exec -sy @hazmi35/extract-docker-baseimg-recipe ${{ matrix.workdir }}/Dockerfile tags`
-          PLATFORMS=`npm exec -sy @hazmi35/extract-docker-baseimg-recipe ${{ matrix.workdir }}/Dockerfile platforms`
-          VARIANT=`npm exec -sy @hazmi35/extract-docker-baseimg-recipe ${{ matrix.workdir }}/Dockerfile variant`
-          echo TAGS: $TAGS
-          echo PLATFORMS: $PLATFORMS
-          echo VARIANT: $VARIANT
-          echo "::set-output name=tags::${TAGS//$', '/'%0A'}"
-          echo "::set-output name=platforms::${PLATFORMS//$', '/'%0A'}"
-          echo "::set-output name=variant::$VARIANT"
+        uses: docker/setup-buildx-action@v3
 
       - name: Generate Docker image metadata
-        uses: docker/metadata-action@c299e40c65443455700f0fdfc63efafe5b349051 # v5.10.0
+        uses: docker/metadata-action@v5
         id: meta
         with:
-          images: ${{ inputs.images }}
+          images: |
+            docker.io/hazmi35/node
+            ghcr.io/hazmi35/node
           tags: |
-            ${{ steps.recipe.outputs.tags }}
+            type=ref,event=branch
+            type=ref,event=pr
+            type=sha,prefix=sha-
+          labels: |
+            org.opencontainers.image.title=Node.js Docker Images
+            org.opencontainers.image.description=Custom Node.js base images for Docker containers
+            org.opencontainers.image.vendor=hazmi35
 
       - name: Login to Docker Hub
-        if: ${{ github.event_name != 'pull_request' }}
-        uses: docker/login-action@c94ce9fb468520275223c153574b00df6fe4bcc9 # v3.7.0
+        if: ${{ inputs.push }}
+        uses: docker/login-action@v3
         with:
           registry: docker.io
           username: ${{ secrets.docker-hub-username }}
           password: ${{ secrets.docker-hub-access-token }}
 
       - name: Login to GitHub Container Registry
-        if: ${{ github.event_name != 'pull_request' }}
-        uses: docker/login-action@c94ce9fb468520275223c153574b00df6fe4bcc9 # v3.7.0
+        if: ${{ inputs.push }}
+        uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: ${{ secrets.ghcr-username }}
           password: ${{ secrets.ghcr-access-token }}
 
-      - name: Build and push the Docker image from the specified Dockerfile
-        id: docker_build
-        uses: docker/build-push-action@263435318d21b8e681c14492fe198d362a7d2c83 # v6.18.0
+      - name: Build and push Docker images
+        uses: docker/bake-action@v5
         with:
-          context: ${{ matrix.workdir }}
-          platforms: |
-            ${{ steps.recipe.outputs.platforms }}
-          push: ${{ github.event_name == 'push' }}
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
-
-      # Well, turns out it doesn't support PAT yet. Please see https://github.com/peter-evans/dockerhub-description/issues/24 and https://github.com/docker/roadmap/issues/115
-      #- name: Update repo description
-      #  uses: peter-evans/dockerhub-description@v2.4.1
-      #  with:
-      #    username: ${{ secrets.docker-hub-username }}
-      #    password: ${{ secrets.docker-hub-username }}
-      #    repository: TO BE FILLED
+          files: docker-bake.hcl
+          targets: ${{ inputs.targets }}
+          push: ${{ inputs.push }}
+        env:
+          PUSH: ${{ inputs.push }}
+          METADATA_LABELS: ${{ steps.meta.outputs.labels }}
