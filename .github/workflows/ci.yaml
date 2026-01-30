@@ -72,10 +72,7 @@ jobs:
       targets: ${{ needs.detect-changes.outputs.targets }}
       push: ${{ (github.event_name == 'push' && github.ref == 'refs/heads/main') || inputs.force_push }}
     secrets:
-      docker-hub-username: ${{ secrets.DOCKER_HUB_USERNAME }}
       docker-hub-access-token: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
-      ghcr-username: ${{ secrets.GHCR_USERNAME }}
-      ghcr-access-token: ${{ secrets.GITHUB_TOKEN }}
 
   summary:
     runs-on: ubuntu-latest

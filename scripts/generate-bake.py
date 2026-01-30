@@ -111,8 +111,13 @@ def get_changed_files():
         for file in changed_files:
             if "Dockerfile" in file and ".devcontainer" not in file:
                 dockerfiles.append(file)
-            elif file.startswith("scripts/"):
-                return "all"  # Script changes require rebuilding all
+            elif (
+                file.startswith("scripts/")
+                or file.startswith(".github/workflows/")
+                or file == "Makefile"
+                or file == "docker-bake.hcl"
+            ):
+                return "all"  # Build system changes require rebuilding all
 
         return dockerfiles if dockerfiles else "none"
 

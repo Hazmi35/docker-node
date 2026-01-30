@@ -14,13 +14,7 @@ on:
         type: boolean
         default: false
     secrets:
-      docker-hub-username:
-        required: false
       docker-hub-access-token:
-        required: false
-      ghcr-username:
-        required: false
-      ghcr-access-token:
         required: false
 
 permissions:
@@ -66,19 +60,19 @@ jobs:
 
       - name: Login to Docker Hub
         if: ${{ inputs.push }}
-        uses: docker/login-action@c94ce9fb468520275223c153574b00df6fe4bcc9 # v3
+        uses: docker/login-action@c94ce9fb468520275223c153574b00df6fe4bcc9 # v3.7.0
         with:
           registry: docker.io
-          username: ${{ secrets.docker-hub-username }}
+          username: ${{ github.repository_owner }}
           password: ${{ secrets.docker-hub-access-token }}
 
       - name: Login to GitHub Container Registry
         if: ${{ inputs.push }}
-        uses: docker/login-action@c94ce9fb468520275223c153574b00df6fe4bcc9 # v3
+        uses: docker/login-action@c94ce9fb468520275223c153574b00df6fe4bcc9 # v3.7.0
         with:
           registry: ghcr.io
-          username: ${{ secrets.ghcr-username }}
-          password: ${{ secrets.ghcr-access-token }}
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and push Docker images
         uses: docker/bake-action@4a9a8d494466d37134e2bfca2d3a8de8fb2681ad # v5
