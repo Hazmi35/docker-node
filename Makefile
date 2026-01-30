@@ -1,7 +1,7 @@
 # Makefile for Docker Node.js Images
-# Uses Docker Bake for efficient multi-platform builds
+# Uses Docker Bake for efficient multi-platform builds with parallel execution
 
-.PHONY: help generate-bake build build-all push test clean list-targets
+.PHONY: help generate-bake generate-matrix build build-all push test clean list-targets
 
 # Default target
 help: ## Show this help message
@@ -18,6 +18,21 @@ generate-bake: ## Generate docker-bake.hcl from Dockerfile metadata
 		echo "📝 No changes to docker-bake.hcl"; \
 	else \
 		echo "📝 docker-bake.hcl has changes - consider committing"; \
+	fi
+
+generate-matrix: ## Generate GitHub Actions matrix for parallel builds
+	@echo "Generating build matrix for all targets..."
+	@python3 scripts/generate-matrix.py all
+
+generate-matrix-changed: ## Generate matrix for only changed targets
+	@echo "Generating build matrix for changed targets..."
+	@output=$$(python3 scripts/generate-bake.py --detect-changes); \
+	targets=$$(echo "$$output" | grep "TARGETS=" | cut -d'=' -f2-); \
+	if [ "$$targets" = "none" ]; then \
+		echo "No changes detected"; \
+		python3 scripts/generate-matrix.py none; \
+	else \
+		python3 scripts/generate-matrix.py "$$targets"; \
 	fi
 
 build: generate-bake ## Build all images (dry-run, no push)
@@ -127,3 +142,24 @@ build-changed: generate-bake ## Build only targets that have changed
 			docker buildx bake "$$target"; \
 		done; \
 	fi
+
+# Parallel build simulation (local)
+build-parallel-sim: generate-bake ## Simulate parallel builds locally (builds targets one by one)
+	@echo "Simulating parallel builds locally..."
+	@targets=$$(docker buildx bake --print all | jq -r '.target | keys[]' | sort); \
+	echo "Will build $$(echo "$$targets" | wc -l) targets"; \
+	for target in $$targets; do \
+		echo "🚀 Building $$target..."; \
+		docker buildx bake "$$target"; \
+	done; \
+	echo "✅ All targets built successfully"
+
+# Show matrix info
+show-matrix: ## Show build matrix information
+	@echo "Build Matrix Information:"
+	@echo "========================"
+	@echo "All targets matrix:"
+	@python3 scripts/generate-matrix.py all | jq '.'
+	@echo ""
+	@echo "Changed targets matrix:"
+	@$(MAKE) generate-matrix-changed | tail -n +2

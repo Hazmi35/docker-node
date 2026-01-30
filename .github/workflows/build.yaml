@@ -22,8 +22,52 @@ permissions:
   packages: write
 
 jobs:
-  build:
+  prepare:
     runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.generate-matrix.outputs.matrix }}
+      has-targets: ${{ steps.generate-matrix.outputs.has-targets }}
+    steps:
+      - name: Check Out Repository
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+
+      - name: Set up Python
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: "3.x"
+
+      - name: Generate Docker Bake configuration
+        run: python3 scripts/generate-bake.py
+
+      - name: Generate build matrix
+        id: generate-matrix
+        run: |
+          # Use the dedicated matrix generation script
+          targets="${{ inputs.targets }}"
+
+          # Generate matrix using Python script
+          matrix=$(python3 scripts/generate-matrix.py "$targets")
+
+          # Check if matrix is empty
+          target_count=$(echo "$matrix" | jq '.include | length')
+
+          if [ "$target_count" -eq 0 ]; then
+            echo "has-targets=false" >> $GITHUB_OUTPUT
+            echo "matrix={\"include\":[]}" >> $GITHUB_OUTPUT
+            echo "No targets to build"
+          else
+            echo "has-targets=true" >> $GITHUB_OUTPUT
+            echo "matrix=$matrix" >> $GITHUB_OUTPUT
+            echo "Generated matrix for $target_count targets"
+          fi
+
+  build:
+    needs: prepare
+    if: needs.prepare.outputs.has-targets == 'true'
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJson(needs.prepare.outputs.matrix) }}
     steps:
       - name: Check Out Repository
         uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
@@ -57,7 +101,7 @@ jobs:
             org.opencontainers.image.title=Node.js Docker Images
             org.opencontainers.image.description=Custom Node.js base images for Docker containers
             org.opencontainers.image.vendor=hazmi35
-          bake-target: all
+          bake-target: ${{ matrix.target }}
 
       - name: Set lowercase username
         id: username
@@ -80,13 +124,59 @@ jobs:
           username: ${{ steps.username.outputs.docker_username }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and push Docker images
+      - name: Build and push Docker image for ${{ matrix.target }}
         uses: docker/bake-action@4a9a8d494466d37134e2bfca2d3a8de8fb2681ad # v5
         with:
           files: |
             docker-bake.hcl
             ${{ steps.meta.outputs.bake-file }}
-          targets: ${{ inputs.targets }}
+          targets: ${{ matrix.target }}
           push: ${{ inputs.push }}
         env:
           PUSH: ${{ inputs.push }}
+
+      - name: Build summary for ${{ matrix.target }}
+        run: |
+          echo "## 🐳 Built target: \`${{ matrix.target }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- **Push**: \`${{ inputs.push }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "- **Trigger**: \`${{ github.event_name }}\`" >> $GITHUB_STEP_SUMMARY
+
+  summary:
+    runs-on: ubuntu-latest
+    needs: [prepare, build]
+    if: always()
+    steps:
+      - name: Overall Build Summary
+        run: |
+          echo "## 🏗️ Build Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          if [ "${{ needs.prepare.outputs.has-targets }}" = "true" ]; then
+            target_count=$(echo '${{ needs.prepare.outputs.matrix }}' | jq '.include | length')
+            echo "✅ **Build completed**" >> $GITHUB_STEP_SUMMARY
+            echo "- **Targets built**: $target_count targets in parallel" >> $GITHUB_STEP_SUMMARY
+            echo "- **Push**: \`${{ inputs.push }}\`" >> $GITHUB_STEP_SUMMARY
+            echo "- **Trigger**: \`${{ github.event_name }}\`" >> $GITHUB_STEP_SUMMARY
+
+            if [ "${{ needs.build.result }}" = "success" ]; then
+              echo "- **Status**: ✅ All targets built successfully" >> $GITHUB_STEP_SUMMARY
+            elif [ "${{ needs.build.result }}" = "failure" ]; then
+              echo "- **Status**: ❌ Some targets failed to build" >> $GITHUB_STEP_SUMMARY
+            else
+              echo "- **Status**: 🟡 ${{ needs.build.result }}" >> $GITHUB_STEP_SUMMARY
+            fi
+
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "### Built Targets" >> $GITHUB_STEP_SUMMARY
+            echo "Each target was built in a separate job:" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+
+            # Extract target names from matrix
+            targets=$(echo '${{ needs.prepare.outputs.matrix }}' | jq -r '.include[].target' | sort)
+            for target in $targets; do
+              echo "- \`$target\`" >> $GITHUB_STEP_SUMMARY
+            done
+          else
+            echo "⏭️ **Build skipped** - No targets to build" >> $GITHUB_STEP_SUMMARY
+          fi
