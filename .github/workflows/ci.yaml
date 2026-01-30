@@ -76,7 +76,7 @@ jobs:
     uses: ./.github/workflows/build.yaml
     with:
       targets: ${{ needs.detect-changes.outputs.targets }}
-      push: ${{ (github.event_name == 'push' && github.ref == 'refs/heads/main') || inputs.force_push }}
+      push: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
     secrets:
       docker-hub-access-token: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
