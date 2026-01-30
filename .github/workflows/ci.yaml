@@ -1,0 +1,120 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+  workflow_dispatch:
+    inputs:
+      targets:
+        description: "Docker Bake targets to build (e.g., 'node-25', '25-alpine', 'all')"
+        required: false
+        type: string
+        default: "all"
+      force_push:
+        description: "Force push images even on PR"
+        required: false
+        type: boolean
+        default: false
+
+jobs:
+  detect-changes:
+    runs-on: ubuntu-latest
+    outputs:
+      targets: ${{ steps.detect.outputs.targets }}
+      should-build: ${{ steps.detect.outputs.should-build }}
+      changed-files: ${{ steps.detect.outputs.changed-files }}
+    steps:
+      - name: Check Out Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Detect changes and determine targets
+        id: detect
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            targets="${{ inputs.targets }}"
+            should_build="true"
+            changed_files="manual"
+            echo "Manual dispatch - building targets: $targets"
+          else
+            # Use the Python script to detect changes
+            output=$(python3 scripts/generate-bake.py --detect-changes)
+            changed_files=$(echo "$output" | grep "CHANGED_FILES=" | cut -d'=' -f2-)
+            targets=$(echo "$output" | grep "TARGETS=" | cut -d'=' -f2-)
+
+            if [ "$targets" = "none" ]; then
+              should_build="false"
+              echo "No buildable changes detected, skipping build"
+            else
+              should_build="true"
+              echo "Building targets: $targets"
+            fi
+          fi
+
+          echo "targets=$targets" >> $GITHUB_OUTPUT
+          echo "should-build=$should_build" >> $GITHUB_OUTPUT
+          echo "changed-files=$changed_files" >> $GITHUB_OUTPUT
+
+  build:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.should-build == 'true'
+    uses: ./.github/workflows/build.yaml
+    with:
+      targets: ${{ needs.detect-changes.outputs.targets }}
+      push: ${{ (github.event_name == 'push' && github.ref == 'refs/heads/main') || inputs.force_push }}
+    secrets:
+      docker-hub-username: ${{ secrets.DOCKER_HUB_USERNAME }}
+      docker-hub-access-token: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+      ghcr-username: ${{ secrets.GHCR_USERNAME }}
+      ghcr-access-token: ${{ secrets.GITHUB_TOKEN }}
+
+  summary:
+    runs-on: ubuntu-latest
+    needs: [detect-changes, build]
+    if: always()
+    steps:
+      - name: Build Summary
+        run: |
+          echo "## Build Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          if [ "${{ needs.detect-changes.outputs.should-build }}" = "true" ]; then
+            echo "✅ **Build triggered**" >> $GITHUB_STEP_SUMMARY
+            echo "- **Targets**: \`${{ needs.detect-changes.outputs.targets }}\`" >> $GITHUB_STEP_SUMMARY
+            echo "- **Push**: \`${{ (github.event_name == 'push' && github.ref == 'refs/heads/main') || inputs.force_push }}\`" >> $GITHUB_STEP_SUMMARY
+            echo "- **Trigger**: \`${{ github.event_name }}\`" >> $GITHUB_STEP_SUMMARY
+
+            if [ "${{ needs.build.result }}" = "success" ]; then
+              echo "- **Status**: ✅ Success" >> $GITHUB_STEP_SUMMARY
+            elif [ "${{ needs.build.result }}" = "failure" ]; then
+              echo "- **Status**: ❌ Failed" >> $GITHUB_STEP_SUMMARY
+            elif [ "${{ needs.build.result }}" = "skipped" ]; then
+              echo "- **Status**: ⏭️ Skipped" >> $GITHUB_STEP_SUMMARY
+            else
+              echo "- **Status**: 🟡 ${{ needs.build.result }}" >> $GITHUB_STEP_SUMMARY
+            fi
+          else
+            echo "⏭️ **Build skipped** - No relevant changes detected" >> $GITHUB_STEP_SUMMARY
+          fi
+
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Changed Files" >> $GITHUB_STEP_SUMMARY
+          changed="${{ needs.detect-changes.outputs.changed-files }}"
+          if [ "$changed" = "none" ]; then
+            echo "No Dockerfiles or scripts changed" >> $GITHUB_STEP_SUMMARY
+          elif [ "$changed" = "all" ]; then
+            echo "Manual trigger - building all targets" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "```" >> $GITHUB_STEP_SUMMARY
+            echo "$changed" | tr ',' '\n' >> $GITHUB_STEP_SUMMARY
+            echo "```" >> $GITHUB_STEP_SUMMARY
+          fi
