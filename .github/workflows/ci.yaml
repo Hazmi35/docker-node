@@ -88,9 +88,9 @@ jobs:
         id: check-author
         run: |
           last_author=$(git log -1 --pretty=format:'%an')
-          if [ "$last_author" = "GitHub Action" ]; then
+          if [ "$last_author" = "Bake Generator" ]; then
             echo "skip=true" >> $GITHUB_OUTPUT
-            echo "Last commit was by GitHub Action, skipping auto-update"
+            echo "Last commit was by Bake Generator, skipping auto-update"
           else
             echo "skip=false" >> $GITHUB_OUTPUT
             echo "Last commit by: $last_author"
@@ -119,8 +119,8 @@ jobs:
       - name: Commit updated docker-bake.hcl
         if: steps.check-author.outputs.skip == 'false' && steps.bake-changes.outputs.changed == 'true'
         run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
+          git config --local user.email "bake-generator@github.com"
+          git config --local user.name "Bake Generator"
           git add docker-bake.hcl
           git commit -m "chore: update docker-bake.hcl [skip ci]"
           git push

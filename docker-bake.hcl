@@ -9,7 +9,7 @@ target "25-alpine" {
   context    = "./25/alpine"
   dockerfile = "Dockerfile"
   platforms  = ["linux/amd64", "linux/arm64/v8", "linux/s390x"]
-  tags       = ["docker.io/hazmi35/node:25", "docker.io/hazmi35/node:25-alpine", "docker.io/hazmi35/node:current", "docker.io/hazmi35/node:current-alpine", "docker.io/hazmi35/node:latest", "docker.io/hazmi35/node:latest-alpine", "ghcr.io/hazmi35/node:25", "ghcr.io/hazmi35/node:25-alpine", "ghcr.io/hazmi35/node:current", "ghcr.io/hazmi35/node:current-alpine", "ghcr.io/hazmi35/node:latest", "ghcr.io/hazmi35/node:latest-alpine"]
+  tags       = ["docker.io/hazmi35/node:25", "docker.io/hazmi35/node:25-alpine", "docker.io/hazmi35/node:current", "docker.io/hazmi35/node:current-alpine", "docker.io/hazmi35/node:latest", "docker.io/hazmi35/node:latest-alpine", "docker.io/hazmi35/node:test", "docker.io/hazmi35/node:test-alpine", "ghcr.io/hazmi35/node:25", "ghcr.io/hazmi35/node:25-alpine", "ghcr.io/hazmi35/node:current", "ghcr.io/hazmi35/node:current-alpine", "ghcr.io/hazmi35/node:latest", "ghcr.io/hazmi35/node:latest-alpine", "ghcr.io/hazmi35/node:test", "ghcr.io/hazmi35/node:test-alpine"]
   push       = PUSH
 }
 
