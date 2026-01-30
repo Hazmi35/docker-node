@@ -21,7 +21,7 @@ on:
 
 jobs:
   detect-changes:
-    runs-on: ubuntu-minimal
+    runs-on: ubuntu-latest
     outputs:
       targets: ${{ steps.detect.outputs.targets }}
       should-build: ${{ steps.detect.outputs.should-build }}
@@ -81,7 +81,7 @@ jobs:
       docker-hub-access-token: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
   commit-bake-changes:
-    runs-on: ubuntu-minimal
+    runs-on: ubuntu-latest
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     needs: detect-changes
     steps:
@@ -132,7 +132,7 @@ jobs:
           git push
 
   summary:
-    runs-on: ubuntu-minimal
+    runs-on: ubuntu-latest
     needs: [detect-changes, build]
     if: always()
     steps:
