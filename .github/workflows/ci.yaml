@@ -1,5 +1,4 @@
 name: CI
-# Test comment for build system detection
 
 on:
   push:
