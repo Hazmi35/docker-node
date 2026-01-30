@@ -173,9 +173,7 @@ def main():
   default = false
 }
 
-variable "METADATA_LABELS" {
-  default = {}
-}
+
 
 """
 
@@ -244,7 +242,6 @@ target "{target_name}" {{
   dockerfile = "Dockerfile"
   platforms  = [{platforms_hcl}]
   tags       = [{tags_hcl}]
-  labels     = METADATA_LABELS
   push       = PUSH
 }}
 

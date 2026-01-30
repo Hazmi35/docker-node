@@ -2,9 +2,7 @@ variable "PUSH" {
   default = false
 }
 
-variable "METADATA_LABELS" {
-  default = {}
-}
+
 
 # 25/alpine
 target "25-alpine" {
@@ -12,7 +10,6 @@ target "25-alpine" {
   dockerfile = "Dockerfile"
   platforms  = ["linux/amd64", "linux/arm64/v8", "linux/s390x"]
   tags       = ["docker.io/hazmi35/node:25", "docker.io/hazmi35/node:25-alpine", "docker.io/hazmi35/node:current", "docker.io/hazmi35/node:current-alpine", "docker.io/hazmi35/node:latest", "docker.io/hazmi35/node:latest-alpine", "ghcr.io/hazmi35/node:25", "ghcr.io/hazmi35/node:25-alpine", "ghcr.io/hazmi35/node:current", "ghcr.io/hazmi35/node:current-alpine", "ghcr.io/hazmi35/node:latest", "ghcr.io/hazmi35/node:latest-alpine"]
-  labels     = METADATA_LABELS
   push       = PUSH
 }
 
@@ -22,7 +19,6 @@ target "25-debian" {
   dockerfile = "Dockerfile"
   platforms  = ["linux/amd64", "linux/arm64/v8", "linux/ppc64le", "linux/s390x"]
   tags       = ["docker.io/hazmi35/node:25", "docker.io/hazmi35/node:current", "docker.io/hazmi35/node:latest", "ghcr.io/hazmi35/node:25", "ghcr.io/hazmi35/node:current", "ghcr.io/hazmi35/node:latest"]
-  labels     = METADATA_LABELS
   push       = PUSH
 }
 
@@ -32,7 +28,6 @@ target "25-dev-alpine" {
   dockerfile = "Dockerfile"
   platforms  = ["linux/amd64", "linux/arm64/v8", "linux/s390x"]
   tags       = ["docker.io/hazmi35/node:25", "docker.io/hazmi35/node:25-dev-alpine", "docker.io/hazmi35/node:current", "docker.io/hazmi35/node:current-dev-alpine", "docker.io/hazmi35/node:latest", "docker.io/hazmi35/node:latest-dev-alpine", "ghcr.io/hazmi35/node:25", "ghcr.io/hazmi35/node:25-dev-alpine", "ghcr.io/hazmi35/node:current", "ghcr.io/hazmi35/node:current-dev-alpine", "ghcr.io/hazmi35/node:latest", "ghcr.io/hazmi35/node:latest-dev-alpine"]
-  labels     = METADATA_LABELS
   push       = PUSH
 }
 
@@ -42,7 +37,6 @@ target "25-dev-debian" {
   dockerfile = "Dockerfile"
   platforms  = ["linux/amd64", "linux/arm64/v8", "linux/ppc64le", "linux/s390x"]
   tags       = ["docker.io/hazmi35/node:25", "docker.io/hazmi35/node:25-dev", "docker.io/hazmi35/node:current", "docker.io/hazmi35/node:current-dev", "docker.io/hazmi35/node:latest", "docker.io/hazmi35/node:latest-dev", "ghcr.io/hazmi35/node:25", "ghcr.io/hazmi35/node:25-dev", "ghcr.io/hazmi35/node:current", "ghcr.io/hazmi35/node:current-dev", "ghcr.io/hazmi35/node:latest", "ghcr.io/hazmi35/node:latest-dev"]
-  labels     = METADATA_LABELS
   push       = PUSH
 }
 
@@ -52,7 +46,6 @@ target "22-alpine" {
   dockerfile = "Dockerfile"
   platforms  = ["linux/amd64", "linux/arm64/v8", "linux/arm/v7", "linux/arm/v6", "linux/s390x"]
   tags       = ["docker.io/hazmi35/node:22", "docker.io/hazmi35/node:22-alpine", "docker.io/hazmi35/node:jod", "docker.io/hazmi35/node:jod-alpine", "ghcr.io/hazmi35/node:22", "ghcr.io/hazmi35/node:22-alpine", "ghcr.io/hazmi35/node:jod", "ghcr.io/hazmi35/node:jod-alpine"]
-  labels     = METADATA_LABELS
   push       = PUSH
 }
 
@@ -62,7 +55,6 @@ target "22-debian" {
   dockerfile = "Dockerfile"
   platforms  = ["linux/amd64", "linux/arm64/v8", "linux/arm/v7", "linux/ppc64le", "linux/s390x"]
   tags       = ["docker.io/hazmi35/node:22", "docker.io/hazmi35/node:jod", "ghcr.io/hazmi35/node:22", "ghcr.io/hazmi35/node:jod"]
-  labels     = METADATA_LABELS
   push       = PUSH
 }
 
@@ -72,7 +64,6 @@ target "22-dev-alpine" {
   dockerfile = "Dockerfile"
   platforms  = ["linux/amd64", "linux/arm64/v8", "linux/arm/v7", "linux/arm/v6", "linux/s390x"]
   tags       = ["docker.io/hazmi35/node:22", "docker.io/hazmi35/node:22-dev-alpine", "docker.io/hazmi35/node:jod", "docker.io/hazmi35/node:jod-dev-alpine", "ghcr.io/hazmi35/node:22", "ghcr.io/hazmi35/node:22-dev-alpine", "ghcr.io/hazmi35/node:jod", "ghcr.io/hazmi35/node:jod-dev-alpine"]
-  labels     = METADATA_LABELS
   push       = PUSH
 }
 
@@ -82,7 +73,6 @@ target "22-dev-debian" {
   dockerfile = "Dockerfile"
   platforms  = ["linux/amd64", "linux/arm64/v8", "linux/arm/v7", "linux/ppc64le", "linux/s390x"]
   tags       = ["docker.io/hazmi35/node:22", "docker.io/hazmi35/node:22-dev", "docker.io/hazmi35/node:jod", "docker.io/hazmi35/node:jod-dev", "ghcr.io/hazmi35/node:22", "ghcr.io/hazmi35/node:22-dev", "ghcr.io/hazmi35/node:jod", "ghcr.io/hazmi35/node:jod-dev"]
-  labels     = METADATA_LABELS
   push       = PUSH
 }
 
@@ -92,7 +82,6 @@ target "24-alpine" {
   dockerfile = "Dockerfile"
   platforms  = ["linux/amd64", "linux/arm64/v8", "linux/s390x"]
   tags       = ["docker.io/hazmi35/node:24", "docker.io/hazmi35/node:24-alpine", "docker.io/hazmi35/node:lts", "docker.io/hazmi35/node:lts-alpine", "docker.io/hazmi35/node:krypton", "docker.io/hazmi35/node:krypton-alpine", "ghcr.io/hazmi35/node:24", "ghcr.io/hazmi35/node:24-alpine", "ghcr.io/hazmi35/node:lts", "ghcr.io/hazmi35/node:lts-alpine", "ghcr.io/hazmi35/node:krypton", "ghcr.io/hazmi35/node:krypton-alpine"]
-  labels     = METADATA_LABELS
   push       = PUSH
 }
 
@@ -102,7 +91,6 @@ target "24-debian" {
   dockerfile = "Dockerfile"
   platforms  = ["linux/amd64", "linux/arm64/v8", "linux/ppc64le", "linux/s390x"]
   tags       = ["docker.io/hazmi35/node:24", "docker.io/hazmi35/node:lts", "docker.io/hazmi35/node:krypton", "ghcr.io/hazmi35/node:24", "ghcr.io/hazmi35/node:lts", "ghcr.io/hazmi35/node:krypton"]
-  labels     = METADATA_LABELS
   push       = PUSH
 }
 
@@ -112,7 +100,6 @@ target "24-dev-alpine" {
   dockerfile = "Dockerfile"
   platforms  = ["linux/amd64", "linux/arm64/v8", "linux/s390x"]
   tags       = ["docker.io/hazmi35/node:24", "docker.io/hazmi35/node:24-dev-alpine", "docker.io/hazmi35/node:lts", "docker.io/hazmi35/node:lts-dev-alpine", "docker.io/hazmi35/node:krypton", "docker.io/hazmi35/node:krypton-dev-alpine", "ghcr.io/hazmi35/node:24", "ghcr.io/hazmi35/node:24-dev-alpine", "ghcr.io/hazmi35/node:lts", "ghcr.io/hazmi35/node:lts-dev-alpine", "ghcr.io/hazmi35/node:krypton", "ghcr.io/hazmi35/node:krypton-dev-alpine"]
-  labels     = METADATA_LABELS
   push       = PUSH
 }
 
@@ -122,7 +109,6 @@ target "24-dev-debian" {
   dockerfile = "Dockerfile"
   platforms  = ["linux/amd64", "linux/arm64/v8", "linux/ppc64le", "linux/s390x"]
   tags       = ["docker.io/hazmi35/node:24", "docker.io/hazmi35/node:24-dev", "docker.io/hazmi35/node:lts", "docker.io/hazmi35/node:lts-dev", "docker.io/hazmi35/node:krypton", "docker.io/hazmi35/node:krypton-dev", "ghcr.io/hazmi35/node:24", "ghcr.io/hazmi35/node:24-dev", "ghcr.io/hazmi35/node:lts", "ghcr.io/hazmi35/node:lts-dev", "ghcr.io/hazmi35/node:krypton", "ghcr.io/hazmi35/node:krypton-dev"]
-  labels     = METADATA_LABELS
   push       = PUSH
 }
 
@@ -132,7 +118,6 @@ target "20-alpine" {
   dockerfile = "Dockerfile"
   platforms  = ["linux/amd64", "linux/arm64/v8", "linux/arm/v7", "linux/arm/v6", "linux/ppc64le", "linux/s390x"]
   tags       = ["docker.io/hazmi35/node:20", "docker.io/hazmi35/node:20-alpine", "docker.io/hazmi35/node:iron", "docker.io/hazmi35/node:iron-alpine", "docker.io/hazmi35/node:oldlts", "docker.io/hazmi35/node:oldlts-alpine", "ghcr.io/hazmi35/node:20", "ghcr.io/hazmi35/node:20-alpine", "ghcr.io/hazmi35/node:iron", "ghcr.io/hazmi35/node:iron-alpine", "ghcr.io/hazmi35/node:oldlts", "ghcr.io/hazmi35/node:oldlts-alpine"]
-  labels     = METADATA_LABELS
   push       = PUSH
 }
 
@@ -142,7 +127,6 @@ target "20-debian" {
   dockerfile = "Dockerfile"
   platforms  = ["linux/amd64", "linux/arm64/v8", "linux/arm/v7", "linux/ppc64le", "linux/s390x"]
   tags       = ["docker.io/hazmi35/node:20", "docker.io/hazmi35/node:iron", "docker.io/hazmi35/node:oldlts", "ghcr.io/hazmi35/node:20", "ghcr.io/hazmi35/node:iron", "ghcr.io/hazmi35/node:oldlts"]
-  labels     = METADATA_LABELS
   push       = PUSH
 }
 
@@ -152,7 +136,6 @@ target "20-dev-alpine" {
   dockerfile = "Dockerfile"
   platforms  = ["linux/amd64", "linux/arm64/v8", "linux/arm/v7", "linux/arm/v6", "linux/ppc64le", "linux/s390x"]
   tags       = ["docker.io/hazmi35/node:20", "docker.io/hazmi35/node:20-dev-alpine", "docker.io/hazmi35/node:iron", "docker.io/hazmi35/node:iron-dev-alpine", "docker.io/hazmi35/node:oldlts", "docker.io/hazmi35/node:oldlts-dev-alpine", "ghcr.io/hazmi35/node:20", "ghcr.io/hazmi35/node:20-dev-alpine", "ghcr.io/hazmi35/node:iron", "ghcr.io/hazmi35/node:iron-dev-alpine", "ghcr.io/hazmi35/node:oldlts", "ghcr.io/hazmi35/node:oldlts-dev-alpine"]
-  labels     = METADATA_LABELS
   push       = PUSH
 }
 
@@ -162,7 +145,6 @@ target "20-dev-debian" {
   dockerfile = "Dockerfile"
   platforms  = ["linux/amd64", "linux/arm64/v8", "linux/arm/v7", "linux/ppc64le", "linux/s390x"]
   tags       = ["docker.io/hazmi35/node:20", "docker.io/hazmi35/node:20-dev", "docker.io/hazmi35/node:iron", "docker.io/hazmi35/node:iron-dev", "docker.io/hazmi35/node:oldlts", "docker.io/hazmi35/node:oldlts-dev", "ghcr.io/hazmi35/node:20", "ghcr.io/hazmi35/node:20-dev", "ghcr.io/hazmi35/node:iron", "ghcr.io/hazmi35/node:iron-dev", "ghcr.io/hazmi35/node:oldlts", "ghcr.io/hazmi35/node:oldlts-dev"]
-  labels     = METADATA_LABELS
   push       = PUSH
 }
 
