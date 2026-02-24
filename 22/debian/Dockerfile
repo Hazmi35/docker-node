@@ -1,7 +1,7 @@
 # TAGS: jod, oldlts
 # VARIANT:
 # PLATFORMS: linux/amd64, linux/arm64/v8, linux/arm/v7, linux/ppc64le, linux/s390x
-FROM docker.io/library/node:22.22.0-slim@sha256:5373f1906319b3a1f291da5d102f4ce5c77ccbe29eb637f072b6c7b70443fc36
+FROM docker.io/library/node:22.22.0-slim@sha256:d89ff8ff9524627eace2d840413d75fef1b3f79f82a1465afe5293c798ade8dd
 
 # Set working directory
 WORKDIR /app
