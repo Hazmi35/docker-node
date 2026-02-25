@@ -1,7 +1,7 @@
 # TAGS: current, latest
 # VARIANT: dev
 # PLATFORMS: linux/amd64, linux/arm64/v8, linux/ppc64le, linux/s390x
-FROM docker.io/library/node:25.6.1-slim@sha256:01d959f21ccdf9193bd4f5100dbef61927ff824cbaff3b6c55dfc62713319509
+FROM docker.io/library/node:25.6.1-slim@sha256:34d76bac75fba8eea764d3b79b05be7a77fa0651d7b956b011b4a55837fdbc02
 
 # Set working directory for builds
 WORKDIR /tmp/build
