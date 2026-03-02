@@ -1,7 +1,7 @@
 # TAGS: lts, krypton
 # VARIANT: dev-alpine
 # PLATFORMS: linux/amd64, linux/arm64/v8, linux/s390x
-FROM docker.io/library/node:24.13.1-alpine@sha256:4f696fbf39f383c1e486030ba6b289a5d9af541642fc78ab197e584a113b9c03
+FROM docker.io/library/node:24.14.0-alpine@sha256:7fddd9ddeae8196abf4a3ef2de34e11f7b1a722119f91f28ddf1e99dcafdf114
 
 # Set working directory for builds
 WORKDIR /tmp/build
