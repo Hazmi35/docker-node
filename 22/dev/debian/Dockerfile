@@ -1,7 +1,7 @@
 # TAGS: jod, oldlts
 # VARIANT: dev
 # PLATFORMS: linux/amd64, linux/arm64/v8, linux/arm/v7, linux/ppc64le, linux/s390x
-FROM docker.io/library/node:22.22.1-slim@sha256:4f77a690f2f8946ab16fe1e791a3ac0667ae1c3575c3e4d0d4589e9ed5bfaf3d
+FROM docker.io/library/node:22.22.2-slim@sha256:80fdb3f57c815e1b638d221f30a826823467c4a56c8f6a8d7aa091cd9b1675ea
 
 # Set working directory for builds
 WORKDIR /tmp/build
