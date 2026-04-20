@@ -43,7 +43,7 @@ target "24-debian" {
   context    = "./24/debian"
   dockerfile = "Dockerfile"
   platforms  = ["linux/amd64", "linux/arm64/v8", "linux/ppc64le", "linux/s390x"]
-  tags       = ["docker.io/hazmi35/node:24", "docker.io/hazmi35/node:24.14.1", "docker.io/hazmi35/node:24.14", "docker.io/hazmi35/node:lts", "docker.io/hazmi35/node:krypton", "ghcr.io/hazmi35/node:24", "ghcr.io/hazmi35/node:24.14.1", "ghcr.io/hazmi35/node:24.14", "ghcr.io/hazmi35/node:lts", "ghcr.io/hazmi35/node:krypton"]
+  tags       = ["docker.io/hazmi35/node:24", "docker.io/hazmi35/node:24.15.0", "docker.io/hazmi35/node:24.15", "docker.io/hazmi35/node:lts", "docker.io/hazmi35/node:krypton", "ghcr.io/hazmi35/node:24", "ghcr.io/hazmi35/node:24.15.0", "ghcr.io/hazmi35/node:24.15", "ghcr.io/hazmi35/node:lts", "ghcr.io/hazmi35/node:krypton"]
   push       = PUSH
 }
 
@@ -52,7 +52,7 @@ target "24-alpine" {
   context    = "./24/alpine"
   dockerfile = "Dockerfile"
   platforms  = ["linux/amd64", "linux/arm64/v8", "linux/s390x"]
-  tags       = ["docker.io/hazmi35/node:24", "docker.io/hazmi35/node:24-alpine", "docker.io/hazmi35/node:24.14.1", "docker.io/hazmi35/node:24.14.1-alpine", "docker.io/hazmi35/node:24.14", "docker.io/hazmi35/node:24.14-alpine", "docker.io/hazmi35/node:lts", "docker.io/hazmi35/node:lts-alpine", "docker.io/hazmi35/node:krypton", "docker.io/hazmi35/node:krypton-alpine", "ghcr.io/hazmi35/node:24", "ghcr.io/hazmi35/node:24-alpine", "ghcr.io/hazmi35/node:24.14.1", "ghcr.io/hazmi35/node:24.14.1-alpine", "ghcr.io/hazmi35/node:24.14", "ghcr.io/hazmi35/node:24.14-alpine", "ghcr.io/hazmi35/node:lts", "ghcr.io/hazmi35/node:lts-alpine", "ghcr.io/hazmi35/node:krypton", "ghcr.io/hazmi35/node:krypton-alpine"]
+  tags       = ["docker.io/hazmi35/node:24", "docker.io/hazmi35/node:24-alpine", "docker.io/hazmi35/node:24.15.0", "docker.io/hazmi35/node:24.15.0-alpine", "docker.io/hazmi35/node:24.15", "docker.io/hazmi35/node:24.15-alpine", "docker.io/hazmi35/node:lts", "docker.io/hazmi35/node:lts-alpine", "docker.io/hazmi35/node:krypton", "docker.io/hazmi35/node:krypton-alpine", "ghcr.io/hazmi35/node:24", "ghcr.io/hazmi35/node:24-alpine", "ghcr.io/hazmi35/node:24.15.0", "ghcr.io/hazmi35/node:24.15.0-alpine", "ghcr.io/hazmi35/node:24.15", "ghcr.io/hazmi35/node:24.15-alpine", "ghcr.io/hazmi35/node:lts", "ghcr.io/hazmi35/node:lts-alpine", "ghcr.io/hazmi35/node:krypton", "ghcr.io/hazmi35/node:krypton-alpine"]
   push       = PUSH
 }
 
@@ -61,7 +61,7 @@ target "24-dev-debian" {
   context    = "./24/dev/debian"
   dockerfile = "Dockerfile"
   platforms  = ["linux/amd64", "linux/arm64/v8", "linux/ppc64le", "linux/s390x"]
-  tags       = ["docker.io/hazmi35/node:24", "docker.io/hazmi35/node:24-dev", "docker.io/hazmi35/node:24.14.1", "docker.io/hazmi35/node:24.14.1-dev", "docker.io/hazmi35/node:24.14", "docker.io/hazmi35/node:24.14-dev", "docker.io/hazmi35/node:lts", "docker.io/hazmi35/node:lts-dev", "docker.io/hazmi35/node:krypton", "docker.io/hazmi35/node:krypton-dev", "ghcr.io/hazmi35/node:24", "ghcr.io/hazmi35/node:24-dev", "ghcr.io/hazmi35/node:24.14.1", "ghcr.io/hazmi35/node:24.14.1-dev", "ghcr.io/hazmi35/node:24.14", "ghcr.io/hazmi35/node:24.14-dev", "ghcr.io/hazmi35/node:lts", "ghcr.io/hazmi35/node:lts-dev", "ghcr.io/hazmi35/node:krypton", "ghcr.io/hazmi35/node:krypton-dev"]
+  tags       = ["docker.io/hazmi35/node:24", "docker.io/hazmi35/node:24-dev", "docker.io/hazmi35/node:24.15.0", "docker.io/hazmi35/node:24.15.0-dev", "docker.io/hazmi35/node:24.15", "docker.io/hazmi35/node:24.15-dev", "docker.io/hazmi35/node:lts", "docker.io/hazmi35/node:lts-dev", "docker.io/hazmi35/node:krypton", "docker.io/hazmi35/node:krypton-dev", "ghcr.io/hazmi35/node:24", "ghcr.io/hazmi35/node:24-dev", "ghcr.io/hazmi35/node:24.15.0", "ghcr.io/hazmi35/node:24.15.0-dev", "ghcr.io/hazmi35/node:24.15", "ghcr.io/hazmi35/node:24.15-dev", "ghcr.io/hazmi35/node:lts", "ghcr.io/hazmi35/node:lts-dev", "ghcr.io/hazmi35/node:krypton", "ghcr.io/hazmi35/node:krypton-dev"]
   push       = PUSH
 }
 
@@ -70,7 +70,7 @@ target "24-dev-alpine" {
   context    = "./24/dev/alpine"
   dockerfile = "Dockerfile"
   platforms  = ["linux/amd64", "linux/arm64/v8", "linux/s390x"]
-  tags       = ["docker.io/hazmi35/node:24", "docker.io/hazmi35/node:24-dev-alpine", "docker.io/hazmi35/node:24.14.1", "docker.io/hazmi35/node:24.14.1-dev-alpine", "docker.io/hazmi35/node:24.14", "docker.io/hazmi35/node:24.14-dev-alpine", "docker.io/hazmi35/node:lts", "docker.io/hazmi35/node:lts-dev-alpine", "docker.io/hazmi35/node:krypton", "docker.io/hazmi35/node:krypton-dev-alpine", "ghcr.io/hazmi35/node:24", "ghcr.io/hazmi35/node:24-dev-alpine", "ghcr.io/hazmi35/node:24.14.1", "ghcr.io/hazmi35/node:24.14.1-dev-alpine", "ghcr.io/hazmi35/node:24.14", "ghcr.io/hazmi35/node:24.14-dev-alpine", "ghcr.io/hazmi35/node:lts", "ghcr.io/hazmi35/node:lts-dev-alpine", "ghcr.io/hazmi35/node:krypton", "ghcr.io/hazmi35/node:krypton-dev-alpine"]
+  tags       = ["docker.io/hazmi35/node:24", "docker.io/hazmi35/node:24-dev-alpine", "docker.io/hazmi35/node:24.15.0", "docker.io/hazmi35/node:24.15.0-dev-alpine", "docker.io/hazmi35/node:24.15", "docker.io/hazmi35/node:24.15-dev-alpine", "docker.io/hazmi35/node:lts", "docker.io/hazmi35/node:lts-dev-alpine", "docker.io/hazmi35/node:krypton", "docker.io/hazmi35/node:krypton-dev-alpine", "ghcr.io/hazmi35/node:24", "ghcr.io/hazmi35/node:24-dev-alpine", "ghcr.io/hazmi35/node:24.15.0", "ghcr.io/hazmi35/node:24.15.0-dev-alpine", "ghcr.io/hazmi35/node:24.15", "ghcr.io/hazmi35/node:24.15-dev-alpine", "ghcr.io/hazmi35/node:lts", "ghcr.io/hazmi35/node:lts-dev-alpine", "ghcr.io/hazmi35/node:krypton", "ghcr.io/hazmi35/node:krypton-dev-alpine"]
   push       = PUSH
 }
 
