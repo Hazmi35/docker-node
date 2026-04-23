@@ -10,13 +10,16 @@ BAKE_FILE="$PROJECT_ROOT/docker-bake.hcl"
 # Function to extract metadata from Dockerfile
 extract_metadata() {
     local dockerfile="$1"
-    local tags platforms variant
+    local tags platforms variant full_version
 
     tags=$(grep "^# TAGS:" "$dockerfile" | sed 's/^# TAGS: *//' || echo "")
     variant=$(grep "^# VARIANT:" "$dockerfile" | sed 's/^# VARIANT: *//' || echo "")
     platforms=$(grep "^# PLATFORMS:" "$dockerfile" | sed 's/^# PLATFORMS: *//' || echo "")
 
-    echo "$tags|$variant|$platforms"
+    # Extract full semver from FROM line: e.g. node:22.22.2-alpine or node:22.22.2-slim
+    full_version=$(grep "^FROM " "$dockerfile" | sed -n 's|.*node:\([0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\).*|\1|p' | head -1 || echo "")
+
+    echo "$tags|$variant|$platforms|$full_version"
 }
 
 # Function to generate target name from path
@@ -27,43 +30,43 @@ generate_target_name() {
 }
 
 # Function to generate tags for a target
+# VARIANT in Dockerfile already encodes the full suffix (e.g. "alpine", "dev", "dev-alpine")
+# Empty variant = debian (bare tags), non-empty = only suffixed tags
+# Semver tags (X.Y.Z and X.Y) are derived from the FROM line version
 generate_tags() {
     local dockerfile_tags="$1"
     local variant="$2"
     local node_version="$3"
-    local is_dev="$4"
+    local full_version="$4"  # e.g. 22.22.2
 
     local tags=()
 
-    # Add version-specific tags
-    if [ "$is_dev" = "true" ]; then
-        tags+=("$node_version-dev")
-        if [ -n "$variant" ]; then
-            tags+=("$node_version-dev-$variant")
+    # Helper to add a base tag with optional variant suffix
+    add_tag() {
+        local base="$1"
+        if [ -z "$variant" ]; then
+            tags+=("$base")
+        else
+            tags+=("$base-$variant")
         fi
-    else
-        tags+=("$node_version")
-        if [ -n "$variant" ]; then
-            tags+=("$node_version-$variant")
-        fi
+    }
+
+    # Major version tag (e.g. "22")
+    add_tag "$node_version"
+
+    # Full semver tags (e.g. "22.22.2" and "22.22") derived from FROM line
+    if [ -n "$full_version" ]; then
+        add_tag "$full_version"
+        minor_version="${full_version%.*}"  # strip patch: 22.22.2 → 22.22
+        add_tag "$minor_version"
     fi
 
-    # Add alias tags from Dockerfile
+    # Alias tags from Dockerfile TAGS comment (e.g. "jod", "oldlts")
     if [ -n "$dockerfile_tags" ]; then
         IFS=',' read -ra tag_array <<< "$dockerfile_tags"
         for tag in "${tag_array[@]}"; do
             tag=$(echo "$tag" | xargs) # trim whitespace
-            if [ "$is_dev" = "true" ]; then
-                tags+=("$tag-dev")
-                if [ -n "$variant" ]; then
-                    tags+=("$tag-dev-$variant")
-                fi
-            else
-                tags+=("$tag")
-                if [ -n "$variant" ]; then
-                    tags+=("$tag-$variant")
-                fi
-            fi
+            add_tag "$tag"
         done
     fi
 
@@ -108,7 +111,7 @@ while IFS= read -r -d '' dockerfile; do
 
     # Extract metadata
     metadata=$(extract_metadata "$dockerfile")
-    IFS='|' read -r tags variant platforms <<< "$metadata"
+    IFS='|' read -r tags variant platforms full_version <<< "$metadata"
 
     # Determine node version and if it's dev
     node_version=""
@@ -131,7 +134,7 @@ while IFS= read -r -d '' dockerfile; do
     target_name=$(generate_target_name "$dir_path")
 
     # Generate tags
-    target_tags=$(generate_tags "$tags" "$variant" "$node_version" "$is_dev")
+    target_tags=$(generate_tags "$tags" "$variant" "$node_version" "$full_version")
 
     # Convert platforms to JSON array format
     if [ -n "$platforms" ]; then
