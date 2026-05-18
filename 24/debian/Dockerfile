@@ -1,7 +1,7 @@
 # TAGS: lts, krypton
 # VARIANT:
 # PLATFORMS: linux/amd64, linux/arm64/v8, linux/ppc64le, linux/s390x
-FROM docker.io/library/node:24.15.0-slim@sha256:03eae3ef7e88a9de535496fb488d67e02b9d96a063a8967bae657744ecd513f2
+FROM docker.io/library/node:24.15.0-slim@sha256:24dc26ef1e3c3690f27ebc4136c9c186c3133b25563ae4d7f0692e4d1fe5db0e
 
 # Set working directory
 WORKDIR /app
