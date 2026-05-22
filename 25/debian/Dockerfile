@@ -1,7 +1,7 @@
 # TAGS: current, latest
 # VARIANT:
 # PLATFORMS: linux/amd64, linux/arm64/v8, linux/ppc64le, linux/s390x
-FROM docker.io/library/node:25.9.0-slim@sha256:67134eb99e14d566f2882a38a374b8351ea474656487dbb1e0c79e4064cc1725
+FROM docker.io/library/node:25.9.0-slim@sha256:81db02c4b671288a03915da9534dbd54f96d0e7c24d80ccc54f5b36b2e684370
 
 # Set working directory
 WORKDIR /app
