@@ -39,9 +39,9 @@ build: generate-bake ## Build all images (dry-run, no push)
 	@echo "Building all Docker images..."
 	@docker buildx bake all
 
-build-25: generate-bake ## Build only Node.js 25 images
-	@echo "Building Node.js 25 images..."
-	@docker buildx bake node-25
+build-26: generate-bake ## Build only Node.js 26 images
+	@echo "Building Node.js 26 images..."
+	@docker buildx bake node-26
 
 build-24: generate-bake ## Build only Node.js 24 images
 	@echo "Building Node.js 24 images..."
@@ -59,9 +59,9 @@ push: generate-bake ## Build and push all images to registries
 	@echo "Building and pushing all Docker images..."
 	@docker buildx bake all --push
 
-push-25: generate-bake ## Build and push only Node.js 25 images
-	@echo "Building and pushing Node.js 25 images..."
-	@docker buildx bake node-25 --push
+push-26: generate-bake ## Build and push only Node.js 26 images
+	@echo "Building and pushing Node.js 26 images..."
+	@docker buildx bake node-26 --push
 
 test: generate-bake ## Test bake configuration without building
 	@echo "Testing Docker Bake configuration..."
@@ -88,9 +88,9 @@ validate-dockerfiles: ## Validate all Dockerfiles with hadolint
 lint: validate-dockerfiles ## Run linting checks
 
 # Development targets
-dev-build-single: ## Build a single target (usage: make dev-build-single TARGET=25-alpine)
+dev-build-single: ## Build a single target (usage: make dev-build-single TARGET=26-alpine)
 ifndef TARGET
-	@echo "❌ Error: TARGET is required. Usage: make dev-build-single TARGET=25-alpine"
+	@echo "❌ Error: TARGET is required. Usage: make dev-build-single TARGET=26-alpine"
 	@exit 1
 endif
 	@echo "Building target: $(TARGET)"

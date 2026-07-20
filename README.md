@@ -30,17 +30,17 @@ python3 scripts/generate-bake.py
 docker buildx bake all
 
 # Build specific Node.js version
-docker buildx bake node-25
+docker buildx bake node-26
 
 # Build specific image variant
-docker buildx bake 25-alpine
+docker buildx bake 26-alpine
 ```
 
 ### Available Targets
 
 - `all` - Build all images
-- `node-22`, `node-24`, `node-25` - Build all variants for a specific Node.js version
-- Individual targets like `25-alpine`, `25-debian`, `25-dev-alpine`, `25-dev-debian`
+- `node-22`, `node-24`, `node-26` - Build all variants for a specific Node.js version
+- Individual targets like `26-alpine`, `26-debian`, `26-dev-alpine`, `26-dev-debian`
 
 ### Renovate
 
@@ -49,6 +49,6 @@ The build system maintains compatibility with [Renovate](https://renovatebot.com
 ```dockerfile
 # TAGS: current, latest
 # VARIANT: alpine
-# PLATFORMS: linux/amd64, linux/arm64/v8, linux/s390x
-FROM docker.io/library/node:25.2.1-alpine
+# PLATFORMS: linux/amd64, linux/arm64/v8
+FROM docker.io/library/node:26.5.0-alpine
 ```

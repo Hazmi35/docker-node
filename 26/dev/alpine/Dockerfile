@@ -1,7 +1,7 @@
 # TAGS: current, latest
 # VARIANT: dev-alpine
-# PLATFORMS: linux/amd64, linux/arm64/v8, linux/s390x
-FROM docker.io/library/node:25.9.0-alpine@sha256:bdf2cca6fe3dabd014ea60163eca3f0f7015fbd5c7ee1b0e9ccb4ced6eb02ef4
+# PLATFORMS: linux/amd64, linux/arm64/v8
+FROM docker.io/library/node:26.5.0-alpine@sha256:e88a35be04478413b7c71c455cd9865de9b9360e1f43456be5951032d7ac1a66
 
 # Set working directory for builds
 WORKDIR /tmp/build

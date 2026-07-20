@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
     inputs:
       targets:
-        description: "Docker Bake targets to build (e.g., 'node-25', '25-alpine', 'all')"
+        description: "Docker Bake targets to build (e.g., 'node-26', '26-alpine', 'all')"
         required: false
         type: string
         default: "all"

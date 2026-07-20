@@ -28,7 +28,7 @@ def extract_metadata(dockerfile_path):
             metadata["platforms"] = line.replace("# PLATFORMS:", "").strip()
         elif line.startswith("FROM") and "node:" in line:
             # Extract Node.js version from FROM line
-            # e.g., "FROM docker.io/library/node:25.5.0-alpine@sha256..." -> "25.5.0"
+            # e.g., "FROM docker.io/library/node:26.5.0-alpine@sha256..." -> "26.5.0"
             import re
 
             match = re.search(r"node:(\d+\.\d+\.\d+)", line)
