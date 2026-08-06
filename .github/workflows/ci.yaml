@@ -28,7 +28,7 @@ jobs:
       changed-files: ${{ steps.detect.outputs.changed-files }}
     steps:
       - name: Check Out Repository
-        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
         with:
           fetch-depth: 0
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
@@ -36,7 +36,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
         with:
-          python-version: "3.14.6"
+          python-version: "3.14.7"
 
       - name: Detect changes and determine targets
         id: detect
@@ -86,7 +86,7 @@ jobs:
     needs: detect-changes
     steps:
       - name: Check Out Repository
-        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
@@ -106,7 +106,7 @@ jobs:
         if: steps.check-author.outputs.skip == 'false'
         uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
         with:
-          python-version: "3.14.6"
+          python-version: "3.14.7"
 
       - name: Generate Docker Bake configuration
         if: steps.check-author.outputs.skip == 'false'
