@@ -2,6 +2,42 @@ variable "PUSH" {
   default = false
 }
 
+# 22/alpine
+target "22-alpine" {
+  context    = "./22/alpine"
+  dockerfile = "Dockerfile"
+  platforms  = ["linux/amd64", "linux/arm64/v8", "linux/arm/v7", "linux/arm/v6", "linux/s390x"]
+  tags       = ["docker.io/hazmi35/node:22", "docker.io/hazmi35/node:22-alpine", "docker.io/hazmi35/node:22.23.2", "docker.io/hazmi35/node:22.23.2-alpine", "docker.io/hazmi35/node:22.23", "docker.io/hazmi35/node:22.23-alpine", "docker.io/hazmi35/node:jod", "docker.io/hazmi35/node:jod-alpine", "docker.io/hazmi35/node:oldlts", "docker.io/hazmi35/node:oldlts-alpine", "ghcr.io/hazmi35/node:22", "ghcr.io/hazmi35/node:22-alpine", "ghcr.io/hazmi35/node:22.23.2", "ghcr.io/hazmi35/node:22.23.2-alpine", "ghcr.io/hazmi35/node:22.23", "ghcr.io/hazmi35/node:22.23-alpine", "ghcr.io/hazmi35/node:jod", "ghcr.io/hazmi35/node:jod-alpine", "ghcr.io/hazmi35/node:oldlts", "ghcr.io/hazmi35/node:oldlts-alpine"]
+  push       = PUSH
+}
+
+# 22/debian
+target "22-debian" {
+  context    = "./22/debian"
+  dockerfile = "Dockerfile"
+  platforms  = ["linux/amd64", "linux/arm64/v8", "linux/arm/v7", "linux/ppc64le"]
+  tags       = ["docker.io/hazmi35/node:22", "docker.io/hazmi35/node:22.23.2", "docker.io/hazmi35/node:22.23", "docker.io/hazmi35/node:jod", "docker.io/hazmi35/node:oldlts", "ghcr.io/hazmi35/node:22", "ghcr.io/hazmi35/node:22.23.2", "ghcr.io/hazmi35/node:22.23", "ghcr.io/hazmi35/node:jod", "ghcr.io/hazmi35/node:oldlts"]
+  push       = PUSH
+}
+
+# 22/dev/alpine
+target "22-dev-alpine" {
+  context    = "./22/dev/alpine"
+  dockerfile = "Dockerfile"
+  platforms  = ["linux/amd64", "linux/arm64/v8", "linux/arm/v7", "linux/arm/v6", "linux/s390x"]
+  tags       = ["docker.io/hazmi35/node:22", "docker.io/hazmi35/node:22-dev-alpine", "docker.io/hazmi35/node:22.23.2", "docker.io/hazmi35/node:22.23.2-dev-alpine", "docker.io/hazmi35/node:22.23", "docker.io/hazmi35/node:22.23-dev-alpine", "docker.io/hazmi35/node:jod", "docker.io/hazmi35/node:jod-dev-alpine", "docker.io/hazmi35/node:oldlts", "docker.io/hazmi35/node:oldlts-dev-alpine", "ghcr.io/hazmi35/node:22", "ghcr.io/hazmi35/node:22-dev-alpine", "ghcr.io/hazmi35/node:22.23.2", "ghcr.io/hazmi35/node:22.23.2-dev-alpine", "ghcr.io/hazmi35/node:22.23", "ghcr.io/hazmi35/node:22.23-dev-alpine", "ghcr.io/hazmi35/node:jod", "ghcr.io/hazmi35/node:jod-dev-alpine", "ghcr.io/hazmi35/node:oldlts", "ghcr.io/hazmi35/node:oldlts-dev-alpine"]
+  push       = PUSH
+}
+
+# 22/dev/debian
+target "22-dev-debian" {
+  context    = "./22/dev/debian"
+  dockerfile = "Dockerfile"
+  platforms  = ["linux/amd64", "linux/arm64/v8", "linux/arm/v7", "linux/ppc64le"]
+  tags       = ["docker.io/hazmi35/node:22", "docker.io/hazmi35/node:22-dev", "docker.io/hazmi35/node:22.23.2", "docker.io/hazmi35/node:22.23.2-dev", "docker.io/hazmi35/node:22.23", "docker.io/hazmi35/node:22.23-dev", "docker.io/hazmi35/node:jod", "docker.io/hazmi35/node:jod-dev", "docker.io/hazmi35/node:oldlts", "docker.io/hazmi35/node:oldlts-dev", "ghcr.io/hazmi35/node:22", "ghcr.io/hazmi35/node:22-dev", "ghcr.io/hazmi35/node:22.23.2", "ghcr.io/hazmi35/node:22.23.2-dev", "ghcr.io/hazmi35/node:22.23", "ghcr.io/hazmi35/node:22.23-dev", "ghcr.io/hazmi35/node:jod", "ghcr.io/hazmi35/node:jod-dev", "ghcr.io/hazmi35/node:oldlts", "ghcr.io/hazmi35/node:oldlts-dev"]
+  push       = PUSH
+}
+
 # 26/alpine
 target "26-alpine" {
   context    = "./26/alpine"
@@ -74,42 +110,6 @@ target "24-dev-debian" {
   push       = PUSH
 }
 
-# 22/alpine
-target "22-alpine" {
-  context    = "./22/alpine"
-  dockerfile = "Dockerfile"
-  platforms  = ["linux/amd64", "linux/arm64/v8", "linux/arm/v7", "linux/arm/v6", "linux/s390x"]
-  tags       = ["docker.io/hazmi35/node:22", "docker.io/hazmi35/node:22-alpine", "docker.io/hazmi35/node:22.23.2", "docker.io/hazmi35/node:22.23.2-alpine", "docker.io/hazmi35/node:22.23", "docker.io/hazmi35/node:22.23-alpine", "docker.io/hazmi35/node:jod", "docker.io/hazmi35/node:jod-alpine", "docker.io/hazmi35/node:oldlts", "docker.io/hazmi35/node:oldlts-alpine", "ghcr.io/hazmi35/node:22", "ghcr.io/hazmi35/node:22-alpine", "ghcr.io/hazmi35/node:22.23.2", "ghcr.io/hazmi35/node:22.23.2-alpine", "ghcr.io/hazmi35/node:22.23", "ghcr.io/hazmi35/node:22.23-alpine", "ghcr.io/hazmi35/node:jod", "ghcr.io/hazmi35/node:jod-alpine", "ghcr.io/hazmi35/node:oldlts", "ghcr.io/hazmi35/node:oldlts-alpine"]
-  push       = PUSH
-}
-
-# 22/debian
-target "22-debian" {
-  context    = "./22/debian"
-  dockerfile = "Dockerfile"
-  platforms  = ["linux/amd64", "linux/arm64/v8", "linux/arm/v7", "linux/ppc64le"]
-  tags       = ["docker.io/hazmi35/node:22", "docker.io/hazmi35/node:22.23.2", "docker.io/hazmi35/node:22.23", "docker.io/hazmi35/node:jod", "docker.io/hazmi35/node:oldlts", "ghcr.io/hazmi35/node:22", "ghcr.io/hazmi35/node:22.23.2", "ghcr.io/hazmi35/node:22.23", "ghcr.io/hazmi35/node:jod", "ghcr.io/hazmi35/node:oldlts"]
-  push       = PUSH
-}
-
-# 22/dev/alpine
-target "22-dev-alpine" {
-  context    = "./22/dev/alpine"
-  dockerfile = "Dockerfile"
-  platforms  = ["linux/amd64", "linux/arm64/v8", "linux/arm/v7", "linux/arm/v6", "linux/s390x"]
-  tags       = ["docker.io/hazmi35/node:22", "docker.io/hazmi35/node:22-dev-alpine", "docker.io/hazmi35/node:22.23.2", "docker.io/hazmi35/node:22.23.2-dev-alpine", "docker.io/hazmi35/node:22.23", "docker.io/hazmi35/node:22.23-dev-alpine", "docker.io/hazmi35/node:jod", "docker.io/hazmi35/node:jod-dev-alpine", "docker.io/hazmi35/node:oldlts", "docker.io/hazmi35/node:oldlts-dev-alpine", "ghcr.io/hazmi35/node:22", "ghcr.io/hazmi35/node:22-dev-alpine", "ghcr.io/hazmi35/node:22.23.2", "ghcr.io/hazmi35/node:22.23.2-dev-alpine", "ghcr.io/hazmi35/node:22.23", "ghcr.io/hazmi35/node:22.23-dev-alpine", "ghcr.io/hazmi35/node:jod", "ghcr.io/hazmi35/node:jod-dev-alpine", "ghcr.io/hazmi35/node:oldlts", "ghcr.io/hazmi35/node:oldlts-dev-alpine"]
-  push       = PUSH
-}
-
-# 22/dev/debian
-target "22-dev-debian" {
-  context    = "./22/dev/debian"
-  dockerfile = "Dockerfile"
-  platforms  = ["linux/amd64", "linux/arm64/v8", "linux/arm/v7", "linux/ppc64le"]
-  tags       = ["docker.io/hazmi35/node:22", "docker.io/hazmi35/node:22-dev", "docker.io/hazmi35/node:22.23.2", "docker.io/hazmi35/node:22.23.2-dev", "docker.io/hazmi35/node:22.23", "docker.io/hazmi35/node:22.23-dev", "docker.io/hazmi35/node:jod", "docker.io/hazmi35/node:jod-dev", "docker.io/hazmi35/node:oldlts", "docker.io/hazmi35/node:oldlts-dev", "ghcr.io/hazmi35/node:22", "ghcr.io/hazmi35/node:22-dev", "ghcr.io/hazmi35/node:22.23.2", "ghcr.io/hazmi35/node:22.23.2-dev", "ghcr.io/hazmi35/node:22.23", "ghcr.io/hazmi35/node:22.23-dev", "ghcr.io/hazmi35/node:jod", "ghcr.io/hazmi35/node:jod-dev", "ghcr.io/hazmi35/node:oldlts", "ghcr.io/hazmi35/node:oldlts-dev"]
-  push       = PUSH
-}
-
 # Groups by Node.js version
 group "node-22" {
   targets = ["22-alpine", "22-debian", "22-dev-alpine", "22-dev-debian"]
@@ -125,5 +125,5 @@ group "node-26" {
 
 # All targets
 group "all" {
-  targets = ["26-alpine", "26-debian", "26-dev-alpine", "26-dev-debian", "24-alpine", "24-debian", "24-dev-alpine", "24-dev-debian", "22-alpine", "22-debian", "22-dev-alpine", "22-dev-debian"]
+  targets = ["22-alpine", "22-debian", "22-dev-alpine", "22-dev-debian", "26-alpine", "26-debian", "26-dev-alpine", "26-dev-debian", "24-alpine", "24-debian", "24-dev-alpine", "24-dev-debian"]
 }
