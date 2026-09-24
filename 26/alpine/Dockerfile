@@ -1,7 +1,7 @@
 # TAGS: current, latest
 # VARIANT: alpine
 # PLATFORMS: linux/amd64, linux/arm64/v8
-FROM docker.io/library/node:26.9.0-alpine@sha256:dbaa92e5758cbbcf85d65d5403fdb530fe3442cbe8c6dbfb7ef23365450d5070
+FROM docker.io/library/node:26.10.0-alpine@sha256:0b36e8c136b94cd4fcf02188228e76c31ad5872eef3fec8cbd2eee500cfd9e80
 
 
 # Set working directory
