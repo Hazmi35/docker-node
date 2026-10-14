@@ -1,7 +1,7 @@
 # TAGS: lts, krypton
 # VARIANT: dev
 # PLATFORMS: linux/amd64, linux/arm64/v8, linux/ppc64le
-FROM docker.io/library/node:24.21.0-slim@sha256:0e0ff40c39bc087845bfb27465a0df4ea419520094bc35842ff83dd8cbe6f9b6
+FROM docker.io/library/node:24.22.0-slim@sha256:a5f4366e834695d5f363b920c104953a535d3a9864d1bdf74566a0ebe01daee5
 
 # Set working directory for builds
 WORKDIR /tmp/build
